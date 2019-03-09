@@ -2956,6 +2956,132 @@ font.weak {
 }
 
 /* 
+  Convert to from  src/pages/Leave/LeaveApplication.less
+*/
+
+.antd-pro-pages-leave-leave-application-card {
+  margin-bottom: 24px;
+}
+
+.antd-pro-pages-leave-leave-application-heading {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.steps:global(.ant-steps) {
+  max-width: 750px;
+  margin: 16px auto;
+}
+
+.antd-pro-pages-leave-leave-application-errorIcon {
+  margin-right: 24px;
+  color: @error-color;
+  cursor: pointer;
+  i {
+    margin-right: 4px;
+  }
+}
+
+.antd-pro-pages-leave-leave-application-errorPopover {
+  .ant-popover-inner-content {
+    min-width: 256px;
+    max-height: 290px;
+    padding: 0;
+    overflow: auto;
+  }
+}
+
+.antd-pro-pages-leave-leave-application-errorListItem {
+  padding: 8px 16px;
+  list-style: none;
+  border-bottom: 1px solid @border-color-split;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    background: @primary-1;
+  }
+  &:last-child {
+    border: 0;
+  }
+  .antd-pro-pages-leave-leave-application-errorIcon {
+    float: left;
+    margin-top: 4px;
+    margin-right: 12px;
+    padding-bottom: 22px;
+    color: @error-color;
+  }
+  .antd-pro-pages-leave-leave-application-errorField {
+    margin-top: 2px;
+    color: @text-color-secondary;
+    font-size: 12px;
+  }
+}
+
+.antd-pro-pages-leave-leave-application-editable {
+  td {
+    padding-top: 13px !important;
+    padding-bottom: 12.5px !important;
+  }
+}
+
+// custom footer for fixed footer toolbar
+.antd-pro-pages-leave-leave-application-advancedForm + div {
+  padding-bottom: 64px;
+}
+
+.antd-pro-pages-leave-leave-application-advancedForm {
+  .ant-form .ant-row:last-child .ant-form-item {
+    margin-bottom: 24px;
+  }
+  .ant-table td {
+    transition: none !important;
+  }
+}
+
+.antd-pro-pages-leave-leave-application-optional {
+  color: @text-color-secondary;
+  font-style: normal;
+}
+
+/* 
+  Convert to from  src/pages/Leave/LeaveDetail.less
+ */
+
+/* 
+  Convert to from  src/pages/Leave/LeaveList.less
+ */
+a.antd-pro-pages-leave-leave-list-listItemMetaTitle {
+  color: @heading-color;
+}
+.antd-pro-pages-leave-leave-list-listItemExtra {
+  width: 272px;
+  height: 1px;
+}
+.antd-pro-pages-leave-leave-list-selfTrigger {
+  margin-left: 12px;
+}
+
+@media screen and (max-width: @screen-xs) {
+  .antd-pro-pages-leave-leave-list-selfTrigger {
+    display: block;
+    margin-left: 0;
+  }
+}
+@media screen and (max-width: @screen-md) {
+  .antd-pro-pages-leave-leave-list-selfTrigger {
+    display: block;
+    margin-left: 0;
+  }
+}
+@media screen and (max-width: @screen-lg) {
+  .antd-pro-pages-leave-leave-list-listItemExtra {
+    width: 0;
+    height: 1px;
+  }
+}
+
+/* 
   Convert to from  src/pages/List/Applications.less
 */
 .antd-pro-pages-list-applications-filterCardList {
