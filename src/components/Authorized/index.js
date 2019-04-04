@@ -7,5 +7,7 @@ import renderAuthorize from './renderAuthorize';
 Authorized.Secured = Secured;
 Authorized.AuthorizedRoute = AuthorizedRoute;
 Authorized.check = check;
-
-export default renderAuthorize(Authorized);
+const auth=renderAuthorize(Authorized);
+// console.log(Authorized)
+// console.log(auth);
+export default auth;

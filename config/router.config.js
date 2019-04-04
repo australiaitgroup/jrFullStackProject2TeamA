@@ -21,6 +21,7 @@ export default [
 		component: '../layouts/BasicLayout',
 		Routes: ['src/pages/Authorized'],
 		routes: [
+			{ path: '/', redirect: '/dashboard', authority: ['admin', 'user'] },
 			{
 				path: '/leave-application',
 				name: 'leaveapplication',

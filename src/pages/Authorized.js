@@ -6,8 +6,10 @@ import Authorized from '@/utils/Authorized';
 
 function AuthComponent({ children, location, routerData, status }) {
   const isLogin = status === 'ok';
-
+console.log(location);
   const getRouteAuthority = (pathname, routeData) => {
+    console.log(pathname);
+    console.log(routerData)
     const routes = routeData.slice(); // clone
 
     const getAuthority = (routeDatas, path) => {
@@ -16,6 +18,7 @@ function AuthComponent({ children, location, routerData, status }) {
         // check partial route
         if (pathToRegexp(`${route.path}(.*)`).test(path)) {
           if (route.authority) {
+            //add authorities to all path,all routes
             authorities = route.authority;
           }
           // is exact route?
@@ -32,7 +35,8 @@ function AuthComponent({ children, location, routerData, status }) {
   return (
     <Authorized
       authority={getRouteAuthority(location.pathname, routerData)}
-      noMatch={isLogin ? <Redirect to="/exception/403" /> : <Redirect to="/user/login" />}
+      // noMatch={isLogin ? <Redirect to="/exception/403" /> : <Redirect to="/user/login" />}
+      noMatch={<Redirect to="/user/login" />}
     >
       {children}
     </Authorized>
