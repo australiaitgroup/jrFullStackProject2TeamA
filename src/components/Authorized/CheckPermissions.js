@@ -23,7 +23,8 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
   // Retirement authority, return target;
   console.log(`authority=${authority}`)
   if (!authority) {
-    console.log(222)
+    console.log('unauthority')
+    
     return target;
   }
   // 数组处理

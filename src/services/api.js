@@ -1,5 +1,6 @@
 import { stringify } from 'qs';
-import request from '@/utils/request';
+import request from '@/utils/requestWithJwt';
+const baseUrl = 'http://localhost:3000'
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -123,4 +124,15 @@ export async function queryNotices(params = {}) {
 
 export async function getFakeCaptcha(mobile) {
   return request(`/api/captcha?mobile=${mobile}`);
+}
+
+export async function accountLogin(params) {
+  const newParams = {
+    ...params,
+    email: params.userName
+  }
+  return request(`${baseUrl}/user/auth`, {
+    method: 'POST',
+    body: newParams,
+  });
 }

@@ -5,6 +5,7 @@ let CURRENT = 'NULL';
  * @param {string|()=>String} currentAuthority
  */
 const renderAuthorize = Authorized => currentAuthority => {
+  console.log(Authorized)
   if (currentAuthority) {
     if (typeof currentAuthority === 'function') {
       CURRENT = currentAuthority();

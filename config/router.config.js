@@ -1,5 +1,5 @@
 export default [
-  // user
+	// user
 	{
 		path: '/user',
 		component: '../layouts/UserLayout',
@@ -15,18 +15,20 @@ export default [
 		],
 	},
 	// app
-	
+
 	{
 		path: '/',
 		component: '../layouts/BasicLayout',
 		Routes: ['src/pages/Authorized'],
+		authority: ['admin', 'staff'],
 		routes: [
-			{ path: '/', redirect: '/dashboard', authority: ['admin', 'user'] },
+			{ path: '/', redirect: '/dashboard', authority: ['admin', 'staff'], },
 			{
 				path: '/leave-application',
 				name: 'leaveapplication',
 				icon: 'form',
 				component: './Leave/LeaveApplication',
+
 			},
 			{
 				path: '/leave-list',
@@ -40,7 +42,7 @@ export default [
 				component: './Leave/LeaveDetail',
 				hideInMenu: true,
 			},
-		// dashboard
+			// dashboard
 			{
 				icon: 'user',
 				path: '/account/settings',
