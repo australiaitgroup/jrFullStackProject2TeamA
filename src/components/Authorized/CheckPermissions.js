@@ -21,7 +21,6 @@ function isPromise(obj) {
 const checkPermissions = (authority, currentAuthority, target, Exception) => {
   // 没有判定权限.默认查看所有
   // Retirement authority, return target;
-  console.log(`authority=${authority}`)
   if (!authority) {
     console.log('unauthority')
     

@@ -171,3 +171,4 @@ export default connect(({ global, setting, menu: menuModel }) => ({
     {isMobile => <BasicLayout {...props} isMobile={isMobile} />}
   </Media>
 ));
+

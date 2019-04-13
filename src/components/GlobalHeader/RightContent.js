@@ -78,6 +78,7 @@ export default class GlobalHeaderRight extends PureComponent {
 	};
 
 	render() {
+		console.log(this.props)
 		const {
 			currentUser,
 			fetchingMoreNotices,

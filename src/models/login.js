@@ -46,7 +46,7 @@ export default {
       yield call(getFakeCaptcha, payload);
     },
 
-    *logout(_, { put }) {
+    *logoutOrigin(_, { put }) {
       yield put({
         type: 'changeLoginStatus',
         payload: {
@@ -64,6 +64,15 @@ export default {
         })
       );
     },
+    *logout(_, { put }) {
+      yield put({
+        type: 'changeLoginStatus',
+        payload: {
+          status: false,
+          payload: {
+            role:'guest'},
+        },
+      })},
     *login({ payload }, { call, put }) {
       const response = yield call(accountLogin, payload);
       console.log(response)
@@ -75,7 +84,6 @@ export default {
       if (response.status == '200') {
         console.log(window.location.href)
         reloadAuthorized();
-        console.log(222)
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params;
