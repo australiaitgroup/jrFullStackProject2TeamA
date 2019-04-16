@@ -13,7 +13,6 @@ export const loadToken = (option) => {
 }
 
 export const saveToken = (response) => {
-	console.log(response)
 	if ((response.status == "200" ||
 		response.status == "302" ||
 		response.status == "201")&&

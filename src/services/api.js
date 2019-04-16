@@ -90,7 +90,7 @@ export async function addFakeList(params) {
       ...restParams,
       method: 'post',
     },
-  });
+  }); 
 }
 
 export async function updateFakeList(params) {

@@ -1,4 +1,4 @@
-import { query as queryUsers, queryCurrent } from '@/services/user';
+import { query as queryUsers, queryCurrent,queryCurrentUser} from '@/services/user';
 
 export default {
   namespace: 'user',
@@ -23,6 +23,14 @@ export default {
         payload: response,
       });
     },
+    *fetchCurrentUser(_,{call,put}){
+      const userId = localStorage.getItem('userId')
+      const response = yield call(queryCurrentUser,userId);
+      yield put({
+        type: 'saveCurrentUser',
+        payload: response,
+      });
+    }
   },
 
   reducers: {

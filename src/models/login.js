@@ -75,7 +75,6 @@ export default {
       })},
     *login({ payload }, { call, put }) {
       const response = yield call(accountLogin, payload);
-      console.log(response)
       yield put({
         type: 'loginStatus',
         payload: response,
@@ -115,6 +114,8 @@ export default {
     },
     loginStatus(state, { payload }) {
       setAuthority(payload.payload.role);
+      console.log(payload.payload.userId)
+      localStorage.setItem('userId',payload.payload.userId)
       return {
         ...state,
         status: payload.status,
