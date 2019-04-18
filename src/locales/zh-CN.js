@@ -1,6 +1,7 @@
 import analysis from './zh-CN/analysis';
 import exception from './zh-CN/exception';
 import form from './zh-CN/form';
+import leave from './zh-CN/leave';
 import globalHeader from './zh-CN/globalHeader';
 import login from './zh-CN/login';
 import menu from './zh-CN/menu';
@@ -32,4 +33,5 @@ export default {
   ...settings,
   ...pwa,
   ...component,
+  ...leave,
 };
