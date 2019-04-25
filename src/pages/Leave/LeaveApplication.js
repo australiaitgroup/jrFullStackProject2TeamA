@@ -119,7 +119,12 @@ class LeaveApplication extends PureComponent {
 								message: formatMessage({ id: 'validation.title.required' }),
 							},
 							],
-						})(<Input placeholder={formatMessage({ id: 'leaves.leaveType.placeholder' })} />)}
+						})(
+							<Select >
+								<Option value="annual">Annual</Option>
+								<Option value="personal">Personal</Option>
+							</Select>
+						)}
 						</FormItem>
 						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.paid" />}>
 						{getFieldDecorator('paid', {
@@ -129,7 +134,12 @@ class LeaveApplication extends PureComponent {
 								message: formatMessage({ id: 'validation.title.required' }),
 							},
 							],
-						})(<Input placeholder={formatMessage({ id: 'leaves.paid.placeholder' })} />)}
+						})(
+							<Select >
+								<Option value="true">True</Option>
+								<Option value="false">False</Option>
+							</Select>
+						)}
 						</FormItem>
 						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.description" />}>
 						{getFieldDecorator('description', {
