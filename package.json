@@ -37,6 +37,7 @@
     "bizcharts": "^3.4.3",
     "bizcharts-plugin-slider": "^2.1.1-beta.1",
     "classnames": "^2.2.6",
+    "dotenv": "^7.0.0",
     "dva": "^2.4.1",
     "enquire-js": "^0.2.1",
     "hash.js": "^1.1.7",
@@ -113,7 +114,6 @@
     ],
     "**/*.{js,jsx}": "npm run lint-staged:js",
     "**/*.less": "stylelint --syntax less"
-    
   },
   "engines": {
     "node": ">=8.0.0"
@@ -130,5 +130,4 @@
     "config/**/*.js*",
     "scripts/**/*.js"
   ]
-
 }

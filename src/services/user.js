@@ -1,4 +1,5 @@
 import request from '@/utils/requestWithJwt';
+const baseUrl = `http://${SERVER}:${SERVER_PORT}`
 
 export async function query() {
   return request('/api/users');
@@ -12,7 +13,7 @@ export async function queryCurrent() {
 export function queryCurrentUser(params) {
   //userId = params
   const userId = params
-  return request(`http://localhost:3000/user/${userId}`,{
+  return request(`${baseUrl}/user/${userId}`,{
     method:'GET'
   })
 }

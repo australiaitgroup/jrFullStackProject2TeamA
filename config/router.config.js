@@ -42,27 +42,15 @@ export default [
 				component: './Leave/LeaveDetail',
 				hideInMenu: true,
 			},
-			// dashboard
+			// Users
 			{
-				icon: 'user',
-				path: '/account/settings',
-				name: 'settings',
-				component: './Account/Settings/Info',
-				routes: [
-					{
-						path: '/account/settings',
-						redirect: '/account/settings/base',
-					},
-					{
-						path: '/account/settings/base',
-						component: './Account/Settings/BaseView',
-					},
-					{
-						path: '/account/settings/security',
-						component: './Account/Settings/SecurityView',
-					},
-				],
+				path: '/Userinfo',
+				name: 'UserInfo',
+				icon: 'form',
+				component: './Users/Info/Infos',
+
 			},
+
 			{
 				component: '404',
 			},

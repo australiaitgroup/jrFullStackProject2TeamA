@@ -1,6 +1,7 @@
 import { stringify } from 'qs';
 import request from '@/utils/requestWithJwt';
-const baseUrl = 'http://localhost:3000'
+const baseUrl = `http://${SERVER}:${SERVER_PORT}`
+console.log(baseUrl)
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');

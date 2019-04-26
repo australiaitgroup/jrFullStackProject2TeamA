@@ -4,10 +4,9 @@ import pageRoutes from './router.config';
 import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
 import slash from 'slash2';
-
+require('dotenv').config();
 const { pwa, primaryColor } = defaultSettings;
 const { NODE_ENV, APP_TYPE, TEST } = process.env;
-
 const plugins = [
   [
     'umi-plugin-react',
@@ -63,6 +62,8 @@ export default {
   plugins,
   define: {
     APP_TYPE: APP_TYPE || '',
+    SERVER: process.env.SERVER || localhost,
+    SERVER_PORT: process.env.SERVER_PORT || 3000
   },
   treeShaking: true,
   targets: {
