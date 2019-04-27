@@ -46,6 +46,8 @@ const columns = [
 @Form.create()
 class QueryUser extends Component {
 
+
+
 	addUserHandler() {
 
 	}
@@ -80,11 +82,18 @@ class QueryUser extends Component {
 }
 
 
-@connect()
+@connect(state => {
+	return { userList: state.users.list }
+})
 @Form.create()
 class AllUsers extends Component {
-
+	componentDidMount() {
+		const { dispatch } = this.props;
+		dispatch({ type: 'users/getAllUsers' })
+	}
 	render() {
+		const { userList } = this.props;
+		console.log(userList);
 		const dataSource = [{
 			key: '1',
 			name: 'John Brown',
@@ -113,7 +122,7 @@ class AllUsers extends Component {
 					<div className={styles.tableListForm}>
 						<Table
 							columns={columns}
-							dataSource={dataSource}
+							dataSource={userList}
 						/>
 					</div>
 				</div>

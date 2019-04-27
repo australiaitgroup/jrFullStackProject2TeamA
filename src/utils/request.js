@@ -119,7 +119,6 @@ export default function request(url, option) {
       sessionStorage.removeItem(`${hashcode}:timestamp`);
     }
   }
-  console.log(newOptions)
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(response => cachedSave(response, hashcode))
@@ -132,7 +131,6 @@ export default function request(url, option) {
       return response.json();
     })
     .catch(e => {
-      console.log(e)
       const status = e.name;
       if (status === 401) {
         // @HACK

@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 
 import { Form, Modal, Input, Row, Col } from 'antd'
+import { assignAll } from 'lodash-decorators/utils';
 
 @connect()
 @Form.create()
@@ -15,17 +16,33 @@ class InfoModal extends Component {
     }
     showModelHandler = (e) => {
         e.preventDefault();
-        console.log(this)
         this.setState({
             visible: true,
         });
     }
-    cancleHandler = () => {
+    cancelHandler = () => {
         this.setState({
             visible: false,
         })
     }
     okHandler = () => {
+        const { title, form: { validateFields },dispatch } = this.props;
+        validateFields((err, values) => {
+            if (!err) {
+                console.log(values);
+                if(title==="Add User"){
+                    dispatch({
+                        type: 'users/addUser',
+                        payload: values,
+                      });
+                }
+                if(title==="Edit"){
+
+                }
+            }
+        });
+
+
         this.setState({
             visible: false,
         })
@@ -42,10 +59,10 @@ class InfoModal extends Component {
                     bodyStyle={{ padding: '32px 40px 48px' }}
                     title={title}
                     visible={this.state.visible}
-                    onCancel={this.cancleHandler}
+                    onCancel={this.cancelHandler}
                     onOk={this.okHandler}
                 >
-                    <Form verticalGap={1} layout="horizontal" hideRequiredMark>
+                    <Form layout="horizontal" hideRequiredMark>
                         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} >
                             <Col span={10}>
                                 <FormItem label="First Name">
@@ -85,7 +102,7 @@ class InfoModal extends Component {
                             {getFieldDecorator('Address', {
                                 rules: [
                                     {
-                                        required: true,
+                                        required: false,
                                     },
                                 ],
                             })(<Input />)}
