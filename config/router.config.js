@@ -22,7 +22,7 @@ export default [
 		Routes: ['src/pages/Authorized'],
 		authority: ['admin', 'staff'],
 		routes: [
-			{ path: '/', redirect: '/dashboard', authority: ['admin', 'staff'], },
+			// { path: '/', redirect: '/dashboard', authority: ['admin', 'staff'], },
 			{
 				path: '/leave-application',
 				name: 'leaveapplication',
@@ -44,13 +44,19 @@ export default [
 			},
 			// Users
 			{
-				path: '/Userinfo',
+				path: '/userinfo',
 				name: 'UserInfo',
 				icon: 'form',
 				component: './Users/Info/Infos',
 
 			},
-
+			{
+				path: '/allUsers',
+				name: 'Allusers',
+				icon: 'form',
+				component: './Users/List/Allusers',
+				// authority: ['admin']
+			},
 			{
 				component: '404',
 			},
