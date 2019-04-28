@@ -16,6 +16,16 @@ class InfoModal extends Component {
     }
     showModelHandler = (e) => {
         e.preventDefault();
+        const {
+            record: { firstName, lastName, email, address }
+        } = this.props
+        this.props.form.setFieldsValue({
+            email,
+            firstName,
+            lastName,
+            address
+        })
+
         this.setState({
             visible: true,
         });
@@ -26,23 +36,30 @@ class InfoModal extends Component {
         })
     }
     okHandler = () => {
-        const { title, form: { validateFields },dispatch } = this.props;
+        const { title,record, form: { validateFields }, dispatch } = this.props;
         validateFields((err, values) => {
+            //values = {
+            //    name:""
+            //    email:""
+            //}
             if (!err) {
-                console.log(values);
-                if(title==="Add User"){
+
+                if (title === "Add User") {
                     dispatch({
                         type: 'users/addUser',
                         payload: values,
-                      });
+                    });
                 }
-                if(title==="Edit"){
-
+                if (title === "Edit") {
+                    dispatch({
+                        type: 'users/updateUser',
+                        payload: {
+                            fields:values,
+                            id:record._id
+                        }});
                 }
             }
         });
-
-
         this.setState({
             visible: false,
         })
@@ -66,11 +83,10 @@ class InfoModal extends Component {
                         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} >
                             <Col span={10}>
                                 <FormItem label="First Name">
-                                    {getFieldDecorator('First Name', {
+                                    {getFieldDecorator('firstName', {
                                         rules: [
                                             {
                                                 required: true,
-
                                             },
                                         ],
                                     })(<Input />)}
@@ -78,11 +94,10 @@ class InfoModal extends Component {
                             </Col>
                             <Col span={10}>
                                 <FormItem label='Last Name'>
-                                    {getFieldDecorator('Last Name', {
+                                    {getFieldDecorator('lastName', {
                                         rules: [
                                             {
                                                 required: true,
-
                                             },
                                         ],
                                     })(<Input />)}
@@ -93,7 +108,7 @@ class InfoModal extends Component {
                             {getFieldDecorator('email', {
                                 rules: [
                                     {
-                                        required: true,
+                                        initialValue: "email",
                                     },
                                 ],
                             })(<Input />)}

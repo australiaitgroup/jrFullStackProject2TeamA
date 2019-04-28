@@ -5,43 +5,7 @@ import { routerRedux } from 'dva/router';
 import styles from './AllUsers.less';
 import InfoModal from './InfoModal';
 
-const columns = [
-	{
-		title: 'Name',
-		dataIndex: 'name',
-		key: 'name',
-		render: text => <a href="">{text}</a>,
-	},
-	{
-		title: 'Email',
-		dataIndex: 'email',
-		key: 'email',
-	},
-	{
-		title: 'Address',
-		dataIndex: 'address',
-		key: 'address',
-	},
-	{
-		title: 'Actions',
-		dataIndex: 'actions',
-		key: 'actions',
-		render: () => {
-			return (
-				<span>
-					<InfoModal title='Edit'
-					><a href="">Edit</a>
-					</InfoModal>
-					<Divider type="vertical" />
-					<Popconfirm title="Confirm to delete?">
-						<a href="">Delete</a>
-					</Popconfirm>
 
-				</span>
-			)
-		}
-	},
-];
 //queryUser component
 @Form.create()
 class QueryUser extends Component {
@@ -57,7 +21,7 @@ class QueryUser extends Component {
 		return (
 			<Form onSubmit={this.handleSearch} layout="inline">
 				<Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-					<Col md={8} sm={24}>
+					<Col md={10} sm={24}>
 						<Form.Item label="Email">
 							{getFieldDecorator('email')(<Input placeholder="Email" />)}
 						</Form.Item>
@@ -67,7 +31,7 @@ class QueryUser extends Component {
 							<Button type="primary" htmlType="submit">
 								Search
 			  				</Button>
-							<InfoModal title="Add User">
+							<InfoModal title="Add User" record={{}}>
 								<Button icon="plus" style={{ marginLeft: 8 }}>
 									New User
 			  				</Button>
@@ -83,46 +47,78 @@ class QueryUser extends Component {
 
 
 @connect(state => {
+	const userList=[];
 	return { userList: state.users.list }
 })
 @Form.create()
 class AllUsers extends Component {
-	componentDidMount() {
+	// componentWillMount() {
+	// 	const { dispatch } = this.props;
+	// 	dispatch({ type: 'users/getAllUsers' })
+	// }
+	deleteHandler(id) {
 		const { dispatch } = this.props;
-		dispatch({ type: 'users/getAllUsers' })
-	}
+		dispatch({ type: 'users/deleteUser', payload: { id } })
+	};
+	columns = [
+		{
+			title: 'Name',
+			dataIndex: 'name',
+			key: 'name',
+			render: text => <a href="">{text}</a>,
+		},
+		{
+			title: 'Email',
+			dataIndex: 'email',
+			key: 'email',
+		},
+		{
+			title: 'Address',
+			dataIndex: 'address',
+			key: 'address',
+		},
+		{
+			title: 'Actions',
+			dataIndex: 'actions',
+			key: 'actions',
+			render: (text, record) => {
+				return (
+					<span>
+						<InfoModal title='Edit' record={record}
+						><a href="">Edit</a>
+						</InfoModal>
+						<Divider type="vertical" />
+						<Popconfirm title="Confirm to delete?" onConfirm={this.deleteHandler.bind(this, record._id)}>
+							<a href="">Delete</a>
+						</Popconfirm>
+
+					</span>
+				)
+			}
+		},
+	];
+
+
 	render() {
 		const { userList } = this.props;
-		console.log(userList);
-		const dataSource = [{
-			key: '1',
-			name: 'John Brown',
-			email: 32,
-			address: 'New York No. 1 Lake Park',
-		}, {
-			key: '2',
-			name: 'Jim Green',
-			email: 42,
-			address: 'London No. 1 Lake Park',
-		}, {
-			key: '3',
-			name: 'Joe Black',
-			email: 32,
-			address: 'Sidney No. 1 Lake Park',
-		}, {
-			key: '4',
-			name: 'Disabled User',
-			email: 99,
-			address: 'Sidney No. 1 Lake Park',
-		}];
+		const newUserList = userList.map(user => {
+			if (!user.name) {
+				return {
+					...user,
+					name: `${user.firstName} ${user.lastName}`
+				}
+			} else {
+				return user;
+			}
+		})
 		return (
 			<Fragment>
 				<div className={styles.tableList}>
 					<div className={styles.queryForm}><QueryUser /></div>
 					<div className={styles.tableListForm}>
 						<Table
-							columns={columns}
-							dataSource={userList}
+							columns={this.columns}
+							dataSource={newUserList}
 						/>
 					</div>
 				</div>

@@ -41,6 +41,7 @@ export default {
             yield put({ type: 'fetch', payload: { page } });
         },
         *getAllUsers(action, { put, call, select }) {
+            console.log('getallusers')
             const list = yield call(queryAllUsers);
             yield put({ type: 'save', payload: { list } });
         },
@@ -48,18 +49,18 @@ export default {
             const page = yield select(state => state.users.page);
             yield put({ type: 'fetch', payload: { page } });
         },
-        *updateUser(action, { put, select }) {
-            const page = yield select(state => state.users.page);
-            yield put({ type: 'fetch', payload: { page } });
+        *updateUser({payload}, { put, call }) {
+            console.log(payload);
+            yield call(updateUser, payload)            
+            yield put({type:'getAllUsers'})
         },
-        *deleteUser(action, { put, select }) {
-            const page = yield select(state => state.users.page);
-            yield put({ type: 'fetch', payload: { page } });
+        *deleteUser({payload:{id}}, { put, call }) {
+            yield call(deleteUser,id);
+            yield put({type:'getAllUsers'})
         },
         *addUser({ payload }, { put, call }) {
-            const page = yield select(state => state.users.page);
-            yield call(addUser, payload)
-            yield put({ type: 'fetch', payload: { page } });
+            yield call(addUser, payload)            
+            yield put({type:'getAllUsers'})
         },
 
 

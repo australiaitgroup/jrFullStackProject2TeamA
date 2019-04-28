@@ -85,7 +85,7 @@ export default function request(url, option) {
   const newOptions = { ...defaultOptions, ...options };
   if (
     newOptions.method === 'POST' ||
-    newOptions.method === 'PUT' ||
+    newOptions.method === 'PATCH' ||
     newOptions.method === 'DELETE'
   ) {
     if (!(newOptions.body instanceof FormData)) {
