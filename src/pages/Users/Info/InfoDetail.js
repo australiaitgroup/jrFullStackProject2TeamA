@@ -1,13 +1,24 @@
 import React, { Component, Fragment } from 'react';
 import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
-import { Form, Input, Button, Row, Col } from 'antd';
+import { Form, Input, Button, Row, Col, Divider } from 'antd';
 import { connect } from 'dva';
 import styles from './InfoDetail.less';
 
 const FormItem = Form.Item;
-@connect()
+@connect(state=>{
+    return state.user.currentUser
+})
 @Form.create()
 class InfoDetail extends Component {
+    componentDidMount() {
+        const {email,firstName,lastName,address}=this.props
+        this.props.form.setFieldsValue({
+            email,
+            firstName,
+            lastName,
+            address
+        })
+    }
 
     render() {
         const {
@@ -15,12 +26,12 @@ class InfoDetail extends Component {
         } = this.props;
         return (
             <div className={styles.baseView} ref={this.getViewDom}>
-                <div className={styles.left}>
-                    <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
-                        <Row>
-                            <Col span={10}>
+                <div >
+                    <Form layout="horizontal" onSubmit={this.handleSubmit} hideRequiredMark>
+                        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                            <Col span={12}>
                                 <FormItem label="First Name">
-                                    {getFieldDecorator('First Name', {
+                                    {getFieldDecorator('firstName', {
                                         rules: [
                                             {
                                                 required: true,
@@ -30,9 +41,9 @@ class InfoDetail extends Component {
                                     })(<Input />)}
                                 </FormItem>
                             </Col>
-                            <Col span={10} offset={4}>
+                            <Col span={12} >
                                 <FormItem label='Last Name'>
-                                    {getFieldDecorator('Last Name', {
+                                    {getFieldDecorator('lastName', {
                                         rules: [
                                             {
                                                 required: true,
@@ -54,7 +65,7 @@ class InfoDetail extends Component {
                             })(<Input />)}
                         </FormItem>
                         <FormItem label="Address">
-                            {getFieldDecorator('Address', {
+                            {getFieldDecorator('address', {
                                 rules: [
                                     {
                                         required: true,

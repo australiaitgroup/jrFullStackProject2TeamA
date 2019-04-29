@@ -22,7 +22,7 @@ export default [
 		Routes: ['src/pages/Authorized'],
 		authority: ['admin', 'staff'],
 		routes: [
-			// { path: '/', redirect: '/dashboard', authority: ['admin', 'staff'], },
+			// { path: '/', redirect: '/allusers', authority: ['admin'], },
 			{
 				path: '/leave-application',
 				name: 'leaveapplication',

@@ -7,12 +7,22 @@ import InfoModal from './InfoModal';
 
 
 //queryUser component
+@connect()
 @Form.create()
 class QueryUser extends Component {
 
 
 
-	addUserHandler() {
+	handleSearch = (e) => {
+		e.preventDefault()
+		const { dispatch } = this.props;
+		this.props.form.validateFields((err, values) => {
+			const { email } = values;
+			console.log(email);
+			if (email != null) {
+				dispatch({ type: 'users/queryUser', payload: { email } })
+			}
+		});
 
 	}
 
@@ -47,15 +57,15 @@ class QueryUser extends Component {
 
 
 @connect(state => {
-	const userList=[];
+	// const userList=[];
 	return { userList: state.users.list }
 })
 @Form.create()
 class AllUsers extends Component {
-	// componentWillMount() {
-	// 	const { dispatch } = this.props;
-	// 	dispatch({ type: 'users/getAllUsers' })
-	// }
+	componentDidMount() {
+		const { dispatch } = this.props;
+		dispatch({ type: 'users/getAllUsers' })
+	}
 	deleteHandler(id) {
 		const { dispatch } = this.props;
 		dispatch({ type: 'users/deleteUser', payload: { id } })
@@ -102,14 +112,10 @@ class AllUsers extends Component {
 	render() {
 		const { userList } = this.props;
 		const newUserList = userList.map(user => {
-			if (!user.name) {
 				return {
 					...user,
 					name: `${user.firstName} ${user.lastName}`
 				}
-			} else {
-				return user;
-			}
 		})
 		return (
 			<Fragment>

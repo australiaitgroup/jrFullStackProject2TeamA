@@ -64,10 +64,12 @@ const cachedSave = (response, hashcode) => {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, option) {
+  console.log(option)
   const options = {
     expirys: isAntdPro(),
     ...option,
   };
+  console.log(option)
   /**
    * Produce fingerprints based on url and parameters
    * Maybe url has the same parameters

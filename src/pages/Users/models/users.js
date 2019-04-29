@@ -13,41 +13,46 @@ export default {
         },
     },
     effects: {
-        *fetch({ payload: { page = 1 } }, { call, put }) {
-            const data = yield call(queryAllUsers, page);
-            yield put({
-                type: 'save',
-                payload: {
-                    data,
-                    total: parseInt(headers['x-total-count'], 10),
-                    page: parseInt(page, 10),
-                },
-            });
-        },
-        *remove({ payload: id }, { call, put }) {
-            yield call(usersService.remove, id);
-            yield put({ type: 'reload' });
-        },
-        *patch({ payload: { id, values } }, { call, put }) {
-            yield call(usersService.patch, id, values);
-            yield put({ type: 'reload' });
-        },
-        *create({ payload: values }, { call, put }) {
-            yield call(usersService.create, values);
-            yield put({ type: 'reload' });
-        },
-        *reload(action, { put, select }) {
-            const page = yield select(state => state.users.page);
-            yield put({ type: 'fetch', payload: { page } });
-        },
+        // *fetch({ payload: { page = 1 } }, { call, put }) {
+        //     const data = yield call(queryAllUsers, page);
+        //     yield put({
+        //         type: 'save',
+        //         payload: {
+        //             data,
+        //             total: parseInt(headers['x-total-count'], 10),
+        //             page: parseInt(page, 10),
+        //         },
+        //     });
+        // },
+        // *remove({ payload: id }, { call, put }) {
+        //     yield call(usersService.remove, id);
+        //     yield put({ type: 'reload' });
+        // },
+        // *patch({ payload: { id, values } }, { call, put }) {
+        //     yield call(usersService.patch, id, values);
+        //     yield put({ type: 'reload' });
+        // },
+        // *create({ payload: values }, { call, put }) {
+        //     yield call(usersService.create, values);
+        //     yield put({ type: 'reload' });
+        // },
+        // *reload(action, { put, select }) {
+        //     const page = yield select(state => state.users.page);
+        //     yield put({ type: 'fetch', payload: { page } });
+        // },
         *getAllUsers(action, { put, call, select }) {
             console.log('getallusers')
             const list = yield call(queryAllUsers);
             yield put({ type: 'save', payload: { list } });
         },
-        *getUser(action, { put, select }) {
-            const page = yield select(state => state.users.page);
-            yield put({ type: 'fetch', payload: { page } });
+        *queryUser({payload:{email}}, { put, call }) {
+            const user = yield call(queryUser,{email})
+            if(user){
+                yield put({ type: 'save', payload: { list:[user] } });
+            }else{
+                yield put({ type: 'save', payload: { list:[] } });
+            }
+
         },
         *updateUser({payload}, { put, call }) {
             console.log(payload);

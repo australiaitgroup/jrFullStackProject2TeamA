@@ -45,7 +45,6 @@ class Register extends Component {
     confirmDirty: false,
     visible: false,
     help: '',
-    prefix: '86',
   };
 
   componentDidUpdate() {
@@ -94,13 +93,10 @@ class Register extends Component {
     const { form, dispatch } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const { prefix } = this.state;
+        console.log(values);
         dispatch({
           type: 'register/submit',
-          payload: {
-            ...values,
-            prefix,
-          },
+          payload: values,
         });
       }
     });
@@ -138,7 +134,7 @@ class Register extends Component {
           visible: !!value,
         });
       }
-      if (value.length < 6) {
+      if (value.length < 4) {
         callback('error');
       } else {
         const { form } = this.props;
@@ -184,7 +180,7 @@ class Register extends Component {
         </h3>
         <Form onSubmit={this.handleSubmit}>
           <FormItem>
-            {getFieldDecorator('mail', {
+            {getFieldDecorator('email', {
               rules: [
                 {
                   required: true,
@@ -249,68 +245,34 @@ class Register extends Component {
               />
             )}
           </FormItem>
-          <FormItem>
-            <InputGroup compact>
-              <Select
-                size="large"
-                value={prefix}
-                onChange={this.changePrefix}
-                style={{ width: '20%' }}
-              >
-                <Option value="86">+86</Option>
-                <Option value="87">+87</Option>
-              </Select>
-              {getFieldDecorator('mobile', {
+          <Row gutter={8}>
+            <Col span={12}>
+              <FormItem >{getFieldDecorator('firstName', {
                 rules: [
                   {
                     required: true,
-                    message: formatMessage({ id: 'validation.phone-number.required' }),
-                  },
-                  {
-                    pattern: /^\d{11}$/,
-                    message: formatMessage({ id: 'validation.phone-number.wrong-format' }),
                   },
                 ],
-              })(
-                <Input
-                  size="large"
-                  style={{ width: '80%' }}
-                  placeholder={formatMessage({ id: 'form.phone-number.placeholder' })}
-                />
-              )}
-            </InputGroup>
-          </FormItem>
-          <FormItem>
-            <Row gutter={8}>
-              <Col span={16}>
-                {getFieldDecorator('captcha', {
-                  rules: [
-                    {
-                      required: true,
-                      message: formatMessage({ id: 'validation.verification-code.required' }),
-                    },
-                  ],
-                })(
-                  <Input
-                    size="large"
-                    placeholder={formatMessage({ id: 'form.verification-code.placeholder' })}
-                  />
-                )}
-              </Col>
-              <Col span={8}>
-                <Button
-                  size="large"
-                  disabled={count}
-                  className={styles.getCaptcha}
-                  onClick={this.onGetCaptcha}
-                >
-                  {count
-                    ? `${count} s`
-                    : formatMessage({ id: 'app.register.get-verification-code' })}
-                </Button>
-              </Col>
-            </Row>
-          </FormItem>
+              })(<Input 
+                size="large"
+                placeholder='First Name'
+              />)}
+              </FormItem>
+            </Col>
+            <Col span={12}>
+            <FormItem >{getFieldDecorator('lastName', {
+                rules: [
+                  {
+                    required: true,
+                  },
+                ],
+              })(<Input 
+                size='large'
+                placeholder='Last Name'
+              />)}
+              </FormItem>
+            </Col>
+          </Row>
           <FormItem>
             <Button
               size="large"

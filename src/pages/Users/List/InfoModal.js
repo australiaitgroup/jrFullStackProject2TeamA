@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
-
 import { Form, Modal, Input, Row, Col } from 'antd'
 import { assignAll } from 'lodash-decorators/utils';
+import styles from './InfoModal.less'
 
 @connect()
 @Form.create()
@@ -72,8 +72,8 @@ class InfoModal extends Component {
             <Fragment>
                 <span onClick={this.showModelHandler}>{children}</span>
                 <Modal
-                    width={640}
-                    bodyStyle={{ padding: '32px 40px 48px' }}
+                    width={620}
+                    bodyStyle={{ padding: '12px 40px 18px' }}
                     title={title}
                     visible={this.state.visible}
                     onCancel={this.cancelHandler}
@@ -81,7 +81,7 @@ class InfoModal extends Component {
                 >
                     <Form layout="horizontal" hideRequiredMark>
                         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} >
-                            <Col span={10}>
+                            <Col span={12}>
                                 <FormItem label="First Name">
                                     {getFieldDecorator('firstName', {
                                         rules: [
@@ -92,7 +92,7 @@ class InfoModal extends Component {
                                     })(<Input />)}
                                 </FormItem>
                             </Col>
-                            <Col span={10}>
+                            <Col span={12}>
                                 <FormItem label='Last Name'>
                                     {getFieldDecorator('lastName', {
                                         rules: [

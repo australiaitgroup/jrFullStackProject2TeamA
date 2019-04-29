@@ -130,7 +130,7 @@ export async function getFakeCaptcha(mobile) {
 export async function accountLogin(params) {
   const newParams = {
     ...params,
-    email: params.userName
+    email: params.userName,
   }
   return request(`${baseUrl}/user/auth`, {
     method: 'POST',

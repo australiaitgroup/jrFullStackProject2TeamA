@@ -3,9 +3,13 @@ const baseUrl = `http://${SERVER}:${SERVER_PORT}`
 
 const defaultPwd = 123456;
 export function addUser(params) {
+    const { password } = params;
+    if (!password) {
+        password = defaultPwd;
+    }
     const newParams = {
         ...params,
-        password: defaultPwd,
+        password,
     }
     return request(`${baseUrl}/user/add`, {
         method: 'POST',
@@ -23,8 +27,11 @@ export function updateUser(params) {
     });
 }
 
-export function queryUser() {
-
+export function queryUser(payload) {
+    const { firstName, lastName, email } = payload;
+    return request(`${baseUrl}/user/?email=${email}`, {
+        method: 'GET'
+    })
 }
 
 export function queryAllUsers() {
