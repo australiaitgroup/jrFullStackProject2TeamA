@@ -23,8 +23,7 @@ const { TextArea } = Input;
 
 @connect(({ loading }) => ({
   	submitting: loading.effects['form/submitRegularForm'],
-}))
-@Form.create()
+}))@Form.create()
 class LeaveApplication extends PureComponent {
 	handleSubmit = e => {
 		const { dispatch, form } = this.props;

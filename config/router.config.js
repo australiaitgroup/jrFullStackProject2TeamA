@@ -32,7 +32,7 @@ export default [
 			},
 			{
 				path: '/leave-list',
-				name: 'leavelist',
+				name: 'Leave Management',
 				icon: 'solution',
 				component: './Leave/LeaveList',
 			},
@@ -45,14 +45,14 @@ export default [
 			// Users
 			{
 				path: '/userinfo',
-				name: 'UserInfo',
+				name: 'Personal Setting',
 				icon: 'form',
 				component: './Users/Info/Infos',
 
 			},
 			{
-				path: '/allUsers',
-				name: 'Allusers',
+				path: '/users',
+				name: 'User Management',
 				icon: 'form',
 				component: './Users/List/Allusers',
 				// authority: ['admin']
