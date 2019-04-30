@@ -21,26 +21,38 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
-@connect(({ loading }) => ({
-  	submitting: loading.effects['form/submitRegularForm'],
+@connect(({ leaves }) => ({
+  	leaves
 }))
 @Form.create()
 class LeaveApplication extends PureComponent {
+	state={
+		applicant:'',
+		description:'',
+		leaveType:'',
+		supervisor:'',
+	}
 	handleSubmit = e => {
 		const { dispatch, form } = this.props;
+		
 		e.preventDefault();
+		const currentApplicant = this.state.applicant;
+		const currentDescription = this.state.description;
+		const chosenLeaveType = this.state.leaveType;
+		const currentSupervisor = this.state.supervisor;
 		form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
+				console.log(values);
 				dispatch({
-					type: 'form/submitRegularForm',
-					payload: values,
+					type: 'leaves/addNewLeave',
+					payload: values
 				});
 			}
 		});
 	};
 
 	render() {
-		const { submitting } = this.props;
+		console.log(this.props);
 		const {
 			form: { getFieldDecorator, getFieldValue },
 		} = this.props;
@@ -66,22 +78,22 @@ class LeaveApplication extends PureComponent {
 
 		return (
 			<PageHeaderWrapper
-				title={<FormattedMessage id="app.forms.basic.title" />}
-				content={<FormattedMessage id="app.forms.basic.description" />}
+				title={<FormattedMessage id="leaves.applicationForm.title" />}
+				content={<FormattedMessage id="leaves.applicationForm.description" />}
 			>
 				<Card bordered={false}>
 					<Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-						<FormItem {...formItemLayout} label={<FormattedMessage id="form.title.label" />}>
-						{getFieldDecorator('title', {
+						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.user" />}>
+						{getFieldDecorator('applicant', {
 							rules: [
 							{
 								required: true,
 								message: formatMessage({ id: 'validation.title.required' }),
 							},
 							],
-						})(<Input placeholder={formatMessage({ id: 'form.title.placeholder' })} />)}
+						})(<Input placeholder={formatMessage({ id: 'leaves.user.placeholder' })} />)}
 						</FormItem>
-						<FormItem {...formItemLayout} label={<FormattedMessage id="form.date.label" />}>
+						{/* <FormItem {...formItemLayout} label={<FormattedMessage id="form.date.label" />}>
 						{getFieldDecorator('date', {
 							rules: [
 							{
@@ -98,9 +110,39 @@ class LeaveApplication extends PureComponent {
 							]}
 							/>
 						)}
+						</FormItem> */}
+						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.leaveType" />}>
+						{getFieldDecorator('leaveSubType', {
+							rules: [
+							{
+								required: true,
+								message: formatMessage({ id: 'validation.title.required' }),
+							},
+							],
+						})(
+							<Select >
+								<Option value="annual">Annual</Option>
+								<Option value="personal">Personal</Option>
+							</Select>
+						)}
 						</FormItem>
-						<FormItem {...formItemLayout} label={<FormattedMessage id="form.goal.label" />}>
-						{getFieldDecorator('goal', {
+						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.paid" />}>
+						{getFieldDecorator('paid', {
+							rules: [
+							{
+								required: true,
+								message: formatMessage({ id: 'validation.title.required' }),
+							},
+							],
+						})(
+							<Select >
+								<Option value="true">True</Option>
+								<Option value="false">False</Option>
+							</Select>
+						)}
+						</FormItem>
+						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.description" />}>
+						{getFieldDecorator('description', {
 							rules: [
 							{
 								required: true,
@@ -110,12 +152,22 @@ class LeaveApplication extends PureComponent {
 						})(
 							<TextArea
 							style={{ minHeight: 32 }}
-							placeholder={formatMessage({ id: 'form.goal.placeholder' })}
+							placeholder={formatMessage({ id: 'leaves.description.placeholder' })}
 							rows={4}
 							/>
 						)}
 						</FormItem>
-						<FormItem {...formItemLayout} label={<FormattedMessage id="form.standard.label" />}>
+						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.supervisor" />}>
+						{getFieldDecorator('supervisor', {
+							rules: [
+							{
+								required: true,
+								message: formatMessage({ id: 'validation.title.required' }),
+							},
+							],
+						})(<Input placeholder={formatMessage({ id: 'leaves.supervisor.placeholder' })} />)}
+						</FormItem>
+						{/* <FormItem {...formItemLayout} label={<FormattedMessage id="form.standard.label" />}>
 						{getFieldDecorator('standard', {
 							rules: [
 							{
@@ -228,9 +280,9 @@ class LeaveApplication extends PureComponent {
 							)}
 							</FormItem>
 						</div>
-						</FormItem>
+						</FormItem> */}
 						<FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-						<Button type="primary" htmlType="submit" loading={submitting}>
+						<Button type="primary" htmlType="submit">
 							<FormattedMessage id="form.submit" />
 						</Button>
 						<Button style={{ marginLeft: 8 }}>
