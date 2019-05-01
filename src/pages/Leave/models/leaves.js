@@ -1,19 +1,36 @@
-import { getLeaveRequest,approveLeave } from '../services/leaves'
-
+import { addLeave, getLeave, getLeaves, deleteLeave } from '@/services/leaves';
+import { getLeaveRequest,approveLeave } from '../services/leaves';
 export default {
-    namespace: 'leaves',
-    state: {
-        list: [],
-        total: null,
+	namespace: 'leaves',
+	state: {
+		allMLeaves: [],
+		leave: {},
+		list: [],
+		total: null,
         page: null,
-    },
-    reducers: {
-        save(state, { payload: { list, total, page } }) {
-            return { ...state, list, total, page };
+	},
+
+	effects: {
+		*fetchLeaves(_, { call, put }) {
+			const response = yield call(getLeaves);
+			yield put({
+				type: 'listLeaves',
+				payload: response.data,
+			});
+			
+		},
+		*fetchLeaveById({ payload }, { call, put }) {
+			const response = yield call(getLeave, payload.id);
+			yield put({
+				type: 'getCurrentLeave',
+				payload: response.data,
+			});
         },
-    },
-    effects: {
-        *getLeaveRequest(action, { put, call}) {
+        *addNewLeave( {payload},{ call }) {	
+            console.log('aaa');
+			yield call(addLeave, payload);
+		},
+		*getLeaveRequest(action, { put, call}) {
             console.log('get leave request')
             const list = yield call(getLeaveRequest);
             console.log(list)
@@ -24,31 +41,26 @@ export default {
             yield call(approveLeave,payload);
             yield put({type:'getLeaveRequest'});
         }
-        // *queryUser({payload:{email}}, { put, call }) {
-        //     const user = yield call(queryUser,{email})
-        //     if(user){
-        //         yield put({ type: 'save', payload: { list:[user] } });
-        //     }else{
-        //         yield put({ type: 'save', payload: { list:[] } });
-        //     }
+	},
 
-        // },
-        // *updateUser({payload}, { put, call }) {
-        //     console.log(payload);
-        //     yield call(updateUser, payload)            
-        //     yield put({type:'getAllUsers'})
-        // },
-        // *deleteUser({payload:{id}}, { put, call }) {
-        //     yield call(deleteUser,id);
-        //     yield put({type:'getAllUsers'})
-        // },
-        // *addUser({ payload }, { put, call }) {
-        //     yield call(addUser, payload)            
-        //     yield put({type:'getAllUsers'})
-        // },
-
-
-
-    },
-
+	reducers: {
+		listLeaves(state, action) {
+			const result = {
+				...state,
+				allLeaves: action.payload.data
+			};
+			return result;
+		},
+		
+		getCurrentLeave(state, action) {
+			const result = {
+				...state,
+				mentor: action.payload,
+			};
+			return result;
+		},
+		save(state, { payload: { list, total, page } }) {
+            return { ...state, list, total, page };
+        },
+	},
 };
