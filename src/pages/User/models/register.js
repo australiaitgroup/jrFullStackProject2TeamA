@@ -1,6 +1,7 @@
 import { fakeRegister } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
 import { reloadAuthorized } from '@/utils/Authorized';
+import { addUser } from '../../Users/services/users'
 
 export default {
   namespace: 'register',
@@ -11,17 +12,22 @@ export default {
 
   effects: {
     *submit({ payload }, { call, put }) {
-      const response = yield call(fakeRegister, payload);
-      yield put({
-        type: 'registerHandle',
-        payload: response,
-      });
+      const response = yield call(addUser, payload);
+      if (response.status == 200) {
+        window.g_app._store.dispatch({
+          type: 'login/login',
+          payload:{
+            ...payload,
+            userName:payload.email,
+          },
+        })
+      }
     },
   },
 
   reducers: {
     registerHandle(state, { payload }) {
-      setAuthority('user');
+      setAuthority('staff');
       reloadAuthorized();
       return {
         ...state,

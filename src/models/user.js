@@ -1,4 +1,4 @@
-import { users, queryCurrent,usersByRole } from '@/services/user';
+import { query as queryUsers, queryCurrent,queryCurrentUser} from '@/services/user';
 
 export default {
 	namespace: 'user',
@@ -9,29 +9,30 @@ export default {
 		admins:[],
 	},
 
-	effects: {
-		*fetch(_, { call, put }) {
-			const response = yield call(users);
-			yield put({
-				type: 'save',
-				payload: response,
-			});
-		},
-		*fetchCurrent(_, { call, put }) {
-			const response = yield call(queryCurrent);
-			yield put({
-				type: 'saveCurrentUser',
-				payload: response,
-			});
-		},
-		*fetchAdmins(_, { call, put }) {
-			const response = yield call(usersByRole,'admin');
-			yield put({
-				type: 'getAdmins',
-				payload: response,
-			});
-		},
-	},
+  effects: {
+    *fetch(_, { call, put }) {
+      const response = yield call(queryUsers);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },
+    *fetchCurrent(_, { call, put }) {
+      const response = yield call(queryCurrent);
+      yield put({
+        type: 'saveCurrentUser',
+        payload: response,
+      });
+    },
+    *fetchCurrentUser(_,{call,put}){
+      const userId = localStorage.getItem('userId')
+      const response = yield call(queryCurrentUser,userId);
+      yield put({
+        type: 'saveCurrentUser',
+        payload: response,
+      });
+    }
+  },
 
 	reducers: {
 		save(state, action) {

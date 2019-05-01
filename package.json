@@ -33,11 +33,13 @@
   "dependencies": {
     "@antv/data-set": "^0.10.1",
     "@babel/runtime": "^7.3.1",
+    "@hapi/joi": "^15.0.0",
     "antd": "^3.13.0",
     "axios": "^0.18.0",
     "bizcharts": "^3.4.3",
     "bizcharts-plugin-slider": "^2.1.1-beta.1",
     "classnames": "^2.2.6",
+    "dotenv": "^7.0.0",
     "dva": "^2.4.1",
     "enquire-js": "^0.2.1",
     "hash.js": "^1.1.7",
@@ -114,7 +116,6 @@
     ],
     "**/*.{js,jsx}": "npm run lint-staged:js",
     "**/*.less": "stylelint --syntax less"
-    
   },
   "engines": {
     "node": ">=8.0.0"
@@ -131,5 +132,4 @@
     "config/**/*.js*",
     "scripts/**/*.js"
   ]
-
 }

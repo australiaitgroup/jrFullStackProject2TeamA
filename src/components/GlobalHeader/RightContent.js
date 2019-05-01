@@ -114,12 +114,13 @@ export default class GlobalHeaderRight extends PureComponent {
 		if (theme === 'dark') {
 			className = `${styles.right}  ${styles.dark}`;
 		}
+		//display name Jiahao
 		return (
 			<div className={className}>
-				{currentUser.name ? (
+				{currentUser.firstName ? (
 				<HeaderDropdown overlay={menu}>
 					<span className={`${styles.action} ${styles.account}`}>
-					<span className={styles.name}>{currentUser.name}</span>
+					<span className={styles.name}>{currentUser.firstName}</span>
 					</span>
 				</HeaderDropdown>
 				) : (

@@ -1,9 +1,10 @@
-import { routerRedux } from 'dva/router';
+import { Router,routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import { fakeAccountLogin, getFakeCaptcha, accountLogin } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
+import router from 'umi/router'
 
 export default {
   namespace: 'login',
@@ -66,23 +67,25 @@ export default {
     },
     *logout(_, { put }) {
       yield put({
-        type: 'changeLoginStatus',
+        type: 'loginStatus',
         payload: {
           status: false,
           payload: {
             role:'guest'},
         },
-      })},
+      })
+      localStorage.removeItem('Jr-token')
+      router.replace('/user/login')
+
+    },
     *login({ payload }, { call, put }) {
       const response = yield call(accountLogin, payload);
-      console.log(response)
       yield put({
         type: 'loginStatus',
         payload: response,
       });
       // Login successfully
       if (response.status == '200') {
-        console.log(window.location.href)
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -99,7 +102,11 @@ export default {
             return;
           }
         }
-        yield put(routerRedux.replace(redirect || '/'));
+        const defaultRedirect = response.payload.role==="admin"
+        ?'/allusers'
+        :'/userinfo'
+        // yield put(routerRedux.replace(redirect || '/'));
+        yield put(routerRedux.replace(defaultRedirect));
       }
     },
   },
@@ -114,7 +121,9 @@ export default {
       };
     },
     loginStatus(state, { payload }) {
+      console.log(payload.payload.role)
       setAuthority(payload.payload.role);
+      localStorage.setItem('userId',payload.payload.userId)
       return {
         ...state,
         status: payload.status,

@@ -1,6 +1,7 @@
 import { stringify } from 'qs';
 import request from '@/utils/requestWithJwt';
-const baseUrl = 'http://localhost:3000'
+const baseUrl = `http://${SERVER}:${SERVER_PORT}/api`
+console.log(baseUrl)
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -90,7 +91,7 @@ export async function addFakeList(params) {
       ...restParams,
       method: 'post',
     },
-  });
+  }); 
 }
 
 export async function updateFakeList(params) {
@@ -129,7 +130,7 @@ export async function getFakeCaptcha(mobile) {
 export async function accountLogin(params) {
   const newParams = {
     ...params,
-    email: params.userName
+    email: params.userName,
   }
   return request(`${baseUrl}/user/auth`, {
     method: 'POST',

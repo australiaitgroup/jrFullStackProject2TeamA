@@ -22,7 +22,7 @@ export default [
 		Routes: ['src/pages/Authorized'],
 		authority: ['admin', 'staff'],
 		routes: [
-			{ path: '/', redirect: '/dashboard', authority: ['admin', 'staff'], },
+			// { path: '/', redirect: '/allusers', authority: ['admin'], },
 			{
 				path: '/leave-application',
 				name: 'leaveapplication',
@@ -32,36 +32,31 @@ export default [
 			},
 			{
 				path: '/leave-list',
-				name: 'leavelist',
+				name: 'Leave Management',
 				icon: 'solution',
 				component: './Leave/LeaveList',
 			},
 			{
 				path: '/leave-detail',
-				name: 'leavedetail',
+				name: 'Leave Status',
 				component: './Leave/LeaveDetail',
-				hideInMenu: true,
+				icon: 'form',
+				// hideInMenu: true,
 			},
-			// dashboard
+			// Users
 			{
-				icon: 'user',
-				path: '/account/settings',
-				name: 'settings',
-				component: './Account/Settings/Info',
-				routes: [
-					{
-						path: '/account/settings',
-						redirect: '/account/settings/base',
-					},
-					{
-						path: '/account/settings/base',
-						component: './Account/Settings/BaseView',
-					},
-					{
-						path: '/account/settings/security',
-						component: './Account/Settings/SecurityView',
-					},
-				],
+				path: '/userinfo',
+				name: 'Personal Setting',
+				icon: 'form',
+				component: './Users/Info/Infos',
+
+			},
+			{
+				path: '/users',
+				name: 'User Management',
+				icon: 'form',
+				component: './Users/List/Allusers',
+				// authority: ['admin']
 			},
 			{
 				component: '404',
