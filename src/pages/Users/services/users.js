@@ -1,5 +1,5 @@
 import request from '../../../utils/requestWithJwt'
-const baseUrl = `http://${SERVER}:${SERVER_PORT}`
+const baseUrl = `http://${SERVER}:${SERVER_PORT}/api`
 
 const defaultPwd = 123456;
 export function addUser(params) {
