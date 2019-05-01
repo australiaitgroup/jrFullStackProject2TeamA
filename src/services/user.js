@@ -1,6 +1,6 @@
 import request from '@/utils/request';
 
-export async function user() {
+export async function users() {
   return request('/api/users');
 }
 

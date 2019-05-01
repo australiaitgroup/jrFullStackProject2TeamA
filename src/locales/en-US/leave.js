@@ -10,6 +10,8 @@ export default {
 	'leaves.user.placeholder':'Please enter the user',
 	'leaves.leaveType.placeholder':'Please enter the leave type',
 	'leaves.paid.placeholder':'please',
+	'leaves.startDate.placeholder':'Start Time',
+	'leaves.endDate.placeholder':'End Time',
 	'leaves.description.placeholder':'Please enter the detail information',
 	'leaves.supervisor.placeholder':'please enter the supervisor',
 };

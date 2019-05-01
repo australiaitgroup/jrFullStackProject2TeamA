@@ -1,4 +1,4 @@
-import { query as users, queryCurrent,usersByRole } from '@/services/user';
+import { users, queryCurrent,usersByRole } from '@/services/user';
 
 export default {
 	namespace: 'user',

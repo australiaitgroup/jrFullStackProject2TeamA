@@ -10,6 +10,8 @@ export default {
 	'leaves.user.placeholder':'请输入申请人',
 	'leaves.leaveType.placeholder':'请输入请假类型',
 	'leaves.paid.placeholder':'请输入是否带薪',
+	'leaves.startDate.placeholder':'开始时间',
+	'leaves.endDate.placeholder':'结束时间',
 	'leaves.description.placeholder':'请输入具体信息',
 	'leaves.supervisor.placeholder':'请输入处理人',
 };

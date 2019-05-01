@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import moment from 'moment';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import {
 	Form,
@@ -20,6 +21,7 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
+const ormat ='HH';
 
 @connect(({ leaves }) => ({
   	leaves
@@ -31,10 +33,12 @@ class LeaveApplication extends PureComponent {
 		description:'',
 		leaveType:'',
 		supervisor:'',
+		startTime:'',
+		endTime:'',
+		paid:'',
 	}
 	handleSubmit = e => {
 		const { dispatch, form } = this.props;
-		
 		e.preventDefault();
 		const currentApplicant = this.state.applicant;
 		const currentDescription = this.state.description;
@@ -42,7 +46,6 @@ class LeaveApplication extends PureComponent {
 		const currentSupervisor = this.state.supervisor;
 		form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
-				console.log(values);
 				dispatch({
 					type: 'leaves/addNewLeave',
 					payload: values
@@ -93,8 +96,8 @@ class LeaveApplication extends PureComponent {
 							],
 						})(<Input placeholder={formatMessage({ id: 'leaves.user.placeholder' })} />)}
 						</FormItem>
-						{/* <FormItem {...formItemLayout} label={<FormattedMessage id="form.date.label" />}>
-						{getFieldDecorator('date', {
+						<FormItem {...formItemLayout} label={<FormattedMessage id="form.date.label" />}>
+						{getFieldDecorator('startTime', {
 							rules: [
 							{
 								required: true,
@@ -102,15 +105,35 @@ class LeaveApplication extends PureComponent {
 							},
 							],
 						})(
-							<RangePicker
-							style={{ width: '100%' }}
-							placeholder={[
-								formatMessage({ id: 'form.date.placeholder.start' }),
-								formatMessage({ id: 'form.date.placeholder.end' }),
-							]}
+							<DatePicker
+								showTime={{format:'HH:mm:ss'}}
+								format="YYYY-MM-DD HH:mm:ss"
+								style={{ width: '100%' }}
+								placeholder={[
+									formatMessage({ id: 'leaves.startDate.placeholder' }),
+								]}
 							/>
 						)}
-						</FormItem> */}
+						</FormItem>
+						<FormItem {...formItemLayout} label={<FormattedMessage id="form.date.label" />}>
+						{getFieldDecorator('endTime', {
+							rules: [
+							{
+								required: true,
+								message: formatMessage({ id: 'validation.date.required' }),
+							},
+							],
+						})(
+							<DatePicker
+								showTime={{format:'HH:mm:ss'}}
+								format="YYYY-MM-DD HH:mm:ss"
+								style={{ width: '100%' }}
+								placeholder={[
+									formatMessage({ id: 'leaves.endDate.placeholder' }),
+								]}
+							/>
+						)}
+						</FormItem>
 						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.leaveType" />}>
 						{getFieldDecorator('leaveSubType', {
 							rules: [
