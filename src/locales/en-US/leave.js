@@ -1,0 +1,17 @@
+export default {
+	'leave.leaveApplication.user': 'Applicant',
+	'leave.leaveApplication.email': 'Applicant email',
+	'leave.leaveApplication.leaveType': 'Leave Type',
+	'leave.leaveApplication.paid': 'Paid',
+	'leave.leaveApplication.description': 'Description',
+	'leave.leaveApplication.supervisor': 'Supervisor',
+    'leaves.applicationForm.title':'Leave Application',
+	'leaves.applicationForm.description':'Employers could apply leaves by submitting the form',
+	'leaves.user.placeholder':'Please enter the user',
+	'leaves.leaveType.placeholder':'Please enter the leave type',
+	'leaves.paid.placeholder':'please',
+	'leaves.startDate.placeholder':'Start Time',
+	'leaves.endDate.placeholder':'End Time',
+	'leaves.description.placeholder':'Please enter the detail information',
+	'leaves.supervisor.placeholder':'please enter the supervisor',
+};

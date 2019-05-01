@@ -1,6 +1,7 @@
 import analysis from './en-US/analysis';
 import exception from './en-US/exception';
 import form from './en-US/form';
+import leave from './en-US/leave';
 import globalHeader from './en-US/globalHeader';
 import login from './en-US/login';
 import menu from './en-US/menu';
@@ -32,4 +33,5 @@ export default {
   ...settings,
   ...pwa,
   ...component,
+  ...leave,
 };
