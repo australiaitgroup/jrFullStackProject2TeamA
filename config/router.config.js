@@ -38,9 +38,10 @@ export default [
 			},
 			{
 				path: '/leave-detail',
-				name: 'leavedetail',
+				name: 'Leave Status',
 				component: './Leave/LeaveDetail',
-				hideInMenu: true,
+				icon: 'form',
+				// hideInMenu: true,
 			},
 			// Users
 			{

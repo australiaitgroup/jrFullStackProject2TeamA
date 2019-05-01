@@ -1,4 +1,4 @@
-import { getLeaveRequest } from '../services/leaves'
+import { getLeaveRequest,approveLeave } from '../services/leaves'
 
 export default {
     namespace: 'leaves',
@@ -19,6 +19,11 @@ export default {
             console.log(list)
             yield put({ type: 'save', payload: { list } });
         },
+        *approveLeave({payload},{put,call}){
+            console.log(payload);
+            yield call(approveLeave,payload);
+            yield put({type:'getLeaveRequest'});
+        }
         // *queryUser({payload:{email}}, { put, call }) {
         //     const user = yield call(queryUser,{email})
         //     if(user){

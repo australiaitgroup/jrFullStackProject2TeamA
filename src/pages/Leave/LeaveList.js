@@ -4,13 +4,37 @@ import { Table, Pagination, Popconfirm, Button, Form, Row, Col, Input, Divider, 
 import { routerRedux } from 'dva/router';
 import styles from './leaveList.less';
 
-@connect(state => {
-	const requestList = [];
-	return { requestList: state.leaves.list }
+@connect()
+class Action extends Component {
+	onClickAction = (e) => {
+		e.preventDefault()
+		const { dispatch, action, record } = this.props;
+		const id=record._id;
+		dispatch({
+			type: 'leaves/approveLeave',
+			payload: {id,action}
+		})
+	}
 
-})
-@Form.create()
-class AllUsers extends Component {
+	render() {
+		const { children } = this.props;
+		return (
+			<Fragment>
+				<a onClick={this.onClickAction}>{children}</a>
+			</Fragment>
+		)
+
+	}
+}
+
+
+	@connect(state => {
+		const requestList = [];
+		return { requestList: state.leaves.list }
+
+	})
+	@Form.create()
+	class AllUsers extends Component {
 	componentDidMount() {
 		const { dispatch } = this.props;
 		dispatch({ type: 'leaves/getLeaveRequest' })
@@ -47,10 +71,11 @@ class AllUsers extends Component {
 			key: 'actions',
 			render: (text, record) => {
 				return (
+
 					<span>
-						<a href="" onClick={this.approveHandler}>Approve</a>
+						<Action record={record} action="approve">Approve</Action>
 						<Divider type="vertical" />
-						<a href="" onClick={this.rejectHandler}>Reject</a>
+						<Action record={record} action='reject'>Reject</Action>
 					</span>
 				)
 			}
@@ -60,10 +85,10 @@ class AllUsers extends Component {
 
 	render() {
 		const { requestList } = this.props;
-		let leaveList=[]
+		let leaveList = []
 		if (requestList.length > 0) {
 			leaveList = requestList.map((request) => {
-				const { applicant: { email, firstName, lastName,x } }=request
+				const { applicant: { email, firstName, lastName, x } } = request
 				return {
 					...request,
 					email,
