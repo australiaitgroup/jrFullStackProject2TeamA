@@ -6,7 +6,6 @@ export async function queryUsers() {
 }
 
 export async function usersByRole(role) {
-  console.log('sssss');
   return request(`${baseUrl}/users/user/${role}`,{
     method:'GET'
   });
