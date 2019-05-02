@@ -1,4 +1,4 @@
-import { query as queryUsers, queryCurrent,queryCurrentUser, usersByRole} from '@/services/user';
+import { queryUsers, queryCurrent,queryCurrentUser, usersByRole} from '@/services/user';
 
 export default {
 	namespace: 'user',
@@ -38,7 +38,7 @@ export default {
 			console.log(response);
 			yield put({
 				type: 'getAdmins',
-				payload: response.data,
+				payload: response,
 			});
 		},
 	},

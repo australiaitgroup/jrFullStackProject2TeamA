@@ -55,37 +55,6 @@ const cachedSave = (response, hashcode) => {
   }
   return response;
 };
-axiosInstance.interceptors.response.use(
-	response => {
-		const contentType = response.headers['content-type'];
-		if (contentType && contentType.match(/application\/json/i) && response.data.token) {
-			localStorage.setItem('token', response.data.token);
-		}
-		return Promise.resolve(response);
-	},
-	error => {
-		console.log(error);
-		const { response } = error;
-		const { status } = response;
-		notification.error({
-			message: response.data.message || codeMessage[status],
-		});
-		if (status === 401) {
-			// @HACK
-			/* eslint-disable no-underscore-dangle */
-			window.g_app._store.dispatch({
-				type: 'login/logout',
-			});
-		} else if (status === 403) {
-			router.push('/exception/403');
-		} else if (status >= 500 && status <= 504) {
-			router.push('/exception/500');
-		} else if (status >= 404 && status < 422) {
-			router.push('/exception/404');
-		}
-		return Promise.reject(response);
-	}
-);
 
 /**
  * Requests a URL, returning a promise.

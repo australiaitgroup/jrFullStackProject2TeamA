@@ -11,7 +11,7 @@ export function addUser(params) {
         ...params,
         password,
     }
-    return request(`${baseUrl}/user/add`, {
+    return request(`${baseUrl}/users/add`, {
         method: 'POST',
         body: newParams,
     });
@@ -21,7 +21,7 @@ export function updateUser(params) {
 
     const { fields, id } = params;
     console.log(fields)
-    return request(`${baseUrl}/user/${id}`, {
+    return request(`${baseUrl}/users/${id}`, {
         method: 'PATCH',
         body: fields,
     });
@@ -29,18 +29,18 @@ export function updateUser(params) {
 
 export function queryUser(payload) {
     const { firstName, lastName, email } = payload;
-    return request(`${baseUrl}/user/?email=${email}`, {
+    return request(`${baseUrl}/users/?email=${email}`, {
         method: 'GET'
     })
 }
 
 export function queryAllUsers() {
-    return request(`${baseUrl}/user`, {
+    return request(`${baseUrl}/users`, {
         method: 'GET'
     })
 }
 export function deleteUser(id) {
-    return request(`${baseUrl}/user/${id}`, {
+    return request(`${baseUrl}/users/${id}`, {
         method: 'DELETE'
     })
 }

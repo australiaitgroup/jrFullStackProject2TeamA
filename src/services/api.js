@@ -132,7 +132,7 @@ export async function accountLogin(params) {
     ...params,
     email: params.userName,
   }
-  return request(`${baseUrl}/user/auth`, {
+  return request(`${baseUrl}/users/auth`, {
     method: 'POST',
     body: newParams,
   });
