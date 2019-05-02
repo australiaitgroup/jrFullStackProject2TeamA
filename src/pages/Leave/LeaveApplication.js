@@ -23,8 +23,8 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const ormat ='HH';
 
-@connect(({ leaves }) => ({
-  	leaves
+@connect(({ leaves, user }) => ({
+  	leaves, user
 }))
 @Form.create()
 class LeaveApplication extends PureComponent {
@@ -37,14 +37,22 @@ class LeaveApplication extends PureComponent {
 		endTime:'',
 		paid:'',
 	}
+	componentDidMount(){
+		const { dispatch} = this.props;
+		dispatch({
+			type: 'user/fetchAdmins',
+		});
+	}
 	handleSubmit = e => {
-		const { dispatch, form } = this.props;
+		const { dispatch, form, user } = this.props;
+		const {currentUser} = user
 		e.preventDefault();
 		const currentApplicant = this.state.applicant;
 		const currentDescription = this.state.description;
 		const chosenLeaveType = this.state.leaveType;
 		const currentSupervisor = this.state.supervisor;
 		form.validateFieldsAndScroll((err, values) => {
+			values["applicant"]=currentUser._id;
 			if (!err) {
 				dispatch({
 					type: 'leaves/addNewLeave',
@@ -55,7 +63,8 @@ class LeaveApplication extends PureComponent {
 	};
 
 	render() {
-		console.log(this.props);
+		const {user} = this.props;
+		const {admins}= user;
 		const {
 			form: { getFieldDecorator, getFieldValue },
 		} = this.props;
@@ -86,7 +95,7 @@ class LeaveApplication extends PureComponent {
 			>
 				<Card bordered={false}>
 					<Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.user" />}>
+						{/* <FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.user" />}>
 						{getFieldDecorator('applicant', {
 							rules: [
 							{
@@ -95,7 +104,7 @@ class LeaveApplication extends PureComponent {
 							},
 							],
 						})(<Input placeholder={formatMessage({ id: 'leaves.user.placeholder' })} />)}
-						</FormItem>
+						</FormItem> */}
 						<FormItem {...formItemLayout} label={<FormattedMessage id="form.date.label" />}>
 						{getFieldDecorator('startTime', {
 							rules: [
@@ -165,145 +174,37 @@ class LeaveApplication extends PureComponent {
 						)}
 						</FormItem>
 						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.description" />}>
-						{getFieldDecorator('description', {
-							rules: [
-							{
-								required: true,
-								message: formatMessage({ id: 'validation.goal.required' }),
-							},
-							],
-						})(
-							<TextArea
-							style={{ minHeight: 32 }}
-							placeholder={formatMessage({ id: 'leaves.description.placeholder' })}
-							rows={4}
-							/>
-						)}
+							{getFieldDecorator('description', {
+								rules: [
+								{
+									required: true,
+									message: formatMessage({ id: 'validation.goal.required' }),
+								},
+								],
+							})(
+								<TextArea
+								style={{ minHeight: 32 }}
+								placeholder={formatMessage({ id: 'leaves.description.placeholder' })}
+								rows={4}
+								/>
+							)}
 						</FormItem>
 						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.supervisor" />}>
-						{getFieldDecorator('supervisor', {
-							rules: [
-							{
-								required: true,
-								message: formatMessage({ id: 'validation.title.required' }),
-							},
-							],
-						})(<Input placeholder={formatMessage({ id: 'leaves.supervisor.placeholder' })} />)}
-						</FormItem>
-						{/* <FormItem {...formItemLayout} label={<FormattedMessage id="form.standard.label" />}>
-						{getFieldDecorator('standard', {
-							rules: [
-							{
-								required: true,
-								message: formatMessage({ id: 'validation.standard.required' }),
-							},
-							],
-						})(
-							<TextArea
-							style={{ minHeight: 32 }}
-							placeholder={formatMessage({ id: 'form.standard.placeholder' })}
-							rows={4}
-							/>
-						)}
-						</FormItem>
-						<FormItem
-						{...formItemLayout}
-						label={
-							<span>
-							<FormattedMessage id="form.client.label" />
-							<em className={styles.optional}>
-								<FormattedMessage id="form.optional" />
-								<Tooltip title={<FormattedMessage id="form.client.label.tooltip" />}>
-								<Icon type="info-circle-o" style={{ marginRight: 4 }} />
-								</Tooltip>
-							</em>
-							</span>
-						}
-						>
-						{getFieldDecorator('client')(
-							<Input placeholder={formatMessage({ id: 'form.client.placeholder' })} />
-						)}
-						</FormItem>
-						<FormItem
-						{...formItemLayout}
-						label={
-							<span>
-							<FormattedMessage id="form.invites.label" />
-							<em className={styles.optional}>
-								<FormattedMessage id="form.optional" />
-							</em>
-							</span>
-						}
-						>
-						{getFieldDecorator('invites')(
-							<Input placeholder={formatMessage({ id: 'form.invites.placeholder' })} />
-						)}
-						</FormItem>
-						<FormItem
-						{...formItemLayout}
-						label={
-							<span>
-							<FormattedMessage id="form.weight.label" />
-							<em className={styles.optional}>
-								<FormattedMessage id="form.optional" />
-							</em>
-							</span>
-						}
-						>
-						{getFieldDecorator('weight')(
-							<InputNumber
-							placeholder={formatMessage({ id: 'form.weight.placeholder' })}
-							min={0}
-							max={100}
-							/>
-						)}
-						<span className="ant-form-text">%</span>
-						</FormItem>
-						<FormItem
-						{...formItemLayout}
-						label={<FormattedMessage id="form.public.label" />}
-						help={<FormattedMessage id="form.public.label.help" />}
-						>
-						<div>
-							{getFieldDecorator('public', {
-							initialValue: '1',
+							{getFieldDecorator('supervisor', {
+								rules: [
+								{
+									required: true,
+									message: formatMessage({ id: 'validation.title.required' }),
+								},
+								],
 							})(
-							<Radio.Group>
-								<Radio value="1">
-								<FormattedMessage id="form.public.radio.public" />
-								</Radio>
-								<Radio value="2">
-								<FormattedMessage id="form.public.radio.partially-public" />
-								</Radio>
-								<Radio value="3">
-								<FormattedMessage id="form.public.radio.private" />
-								</Radio>
-							</Radio.Group>
-							)}
-							<FormItem style={{ marginBottom: 0 }}>
-							{getFieldDecorator('publicUsers')(
-								<Select
-								mode="multiple"
-								placeholder={formatMessage({ id: 'form.publicUsers.placeholder' })}
-								style={{
-									margin: '8px 0',
-									display: getFieldValue('public') === '2' ? 'block' : 'none',
-								}}
-								>
-								<Option value="1">
-									<FormattedMessage id="form.publicUsers.option.A" />
-								</Option>
-								<Option value="2">
-									<FormattedMessage id="form.publicUsers.option.B" />
-								</Option>
-								<Option value="3">
-									<FormattedMessage id="form.publicUsers.option.C" />
-								</Option>
+								<Select>
+									{admins?admins.map((item)=>
+										<Option value={item._id} key={item._id}>{item.firstName+" "+item.lastName+" : "+item.email}</Option>
+									):<Option value="select">select</Option>}
 								</Select>
 							)}
-							</FormItem>
-						</div>
-						</FormItem> */}
+						</FormItem>
 						<FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
 						<Button type="primary" htmlType="submit">
 							<FormattedMessage id="form.submit" />
