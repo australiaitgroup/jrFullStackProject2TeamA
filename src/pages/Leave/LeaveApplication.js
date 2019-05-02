@@ -23,8 +23,8 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const ormat ='HH';
 
-@connect(({ leaves }) => ({
-  	leaves
+@connect(({ leaves, user }) => ({
+  	leaves, user
 }))
 @Form.create()
 class LeaveApplication extends PureComponent {
@@ -36,6 +36,13 @@ class LeaveApplication extends PureComponent {
 		startTime:'',
 		endTime:'',
 		paid:'',
+	}
+	componentDidMount(){
+		const { dispatch} = this.props;
+		console.log('ss');
+		dispatch({
+			type: 'user/fetchAdmins',
+		});
 	}
 	handleSubmit = e => {
 		const { dispatch, form } = this.props;

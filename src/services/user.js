@@ -1,8 +1,13 @@
 import request from '@/utils/requestWithJwt';
 const baseUrl = `http://${SERVER}:${SERVER_PORT}/api`
 
-export async function query() {
+export async function queryUsers() {
   return request('/api/users');
+}
+
+export async function usersByRole(role) {
+  console.log('sssss');
+  return request(`/api/users/user/${role}`);
 }
 
 export async function queryCurrent() {
