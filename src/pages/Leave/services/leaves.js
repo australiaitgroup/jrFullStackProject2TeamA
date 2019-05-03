@@ -19,6 +19,11 @@ export function approveLeave(payload) {
     console.log(payload);
     return request(`${baseUrl}/leaves/approve`, {
         method: 'PATCH',
-        body:payload
+        body: payload
+    })
+}
+export function getLeavesByUser({userId}) {
+    return request(`${baseUrl}/leaves/user/${userId}`, {
+        method: 'GET'
     })
 }

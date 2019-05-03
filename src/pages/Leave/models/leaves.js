@@ -1,5 +1,5 @@
 import { addLeave, getLeave, getLeaves, deleteLeave } from '@/services/leaves';
-import { getLeaveRequest,approveLeave } from '../services/leaves';
+import { getLeaveRequest, approveLeave, getLeavesByUser } from '../services/leaves';
 export default {
 	namespace: 'leaves',
 	state: {
@@ -7,7 +7,7 @@ export default {
 		leave: {},
 		list: [],
 		total: null,
-        page: null,
+		page: null,
 	},
 
 	effects: {
@@ -17,7 +17,7 @@ export default {
 				type: 'listLeaves',
 				payload: response.data,
 			});
-			
+
 		},
 		*fetchLeaveById({ payload }, { call, put }) {
 			const response = yield call(getLeave, payload.id);
@@ -25,22 +25,27 @@ export default {
 				type: 'getCurrentLeave',
 				payload: response.data,
 			});
-        },
-        *addNewLeave( {payload},{ call }) {	
-            console.log('aaa');
+		},
+		*addNewLeave({ payload }, { call }) {
+			console.log('aaa');
 			yield call(addLeave, payload);
 		},
-		*getLeaveRequest(action, { put, call}) {
-            console.log('get leave request')
-            const list = yield call(getLeaveRequest);
-            console.log(list)
-            yield put({ type: 'save', payload: { list } });
-        },
-        *approveLeave({payload},{put,call}){
-            console.log(payload);
-            yield call(approveLeave,payload);
-            yield put({type:'getLeaveRequest'});
-        }
+		*getLeaveRequest(action, { put, call }) {
+			console.log('get leave request')
+			const list = yield call(getLeaveRequest);
+			console.log(list)
+			yield put({ type: 'save', payload: { list } });
+		},
+		*approveLeave({ payload }, { put, call }) {
+			console.log(payload);
+			yield call(approveLeave, payload);
+			yield put({ type: 'getLeaveRequest' });
+		},
+		*getLeavesByUser(action, { put, call }) {
+			const userId = localStorage.getItem('userId')
+			const list = yield call(getLeavesByUser, { userId });
+			yield put({ type: 'save', payload: { list } })
+		}
 	},
 
 	reducers: {
@@ -51,7 +56,7 @@ export default {
 			};
 			return result;
 		},
-		
+
 		getCurrentLeave(state, action) {
 			const result = {
 				...state,
@@ -60,7 +65,7 @@ export default {
 			return result;
 		},
 		save(state, { payload: { list, total, page } }) {
-            return { ...state, list, total, page };
-        },
+			return { ...state, list, total, page };
+		},
 	},
 };

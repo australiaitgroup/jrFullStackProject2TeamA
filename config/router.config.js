@@ -22,7 +22,7 @@ export default [
 		Routes: ['src/pages/Authorized'],
 		authority: ['admin', 'staff'],
 		routes: [
-			// { path: '/', redirect: '/allusers', authority: ['admin'], },
+			{ path: '/', redirect: '/leave-detail' },
 			{
 				path: '/leave-application',
 				name: 'leaveapplication',
@@ -31,7 +31,7 @@ export default [
 
 			},
 			{
-				path: '/leave-list',
+				path: '/leave-management',
 				name: 'Leave Management',
 				icon: 'solution',
 				component: './Leave/LeaveList',
@@ -45,7 +45,7 @@ export default [
 			},
 			// Users
 			{
-				path: '/userinfo',
+				path: '/personal',
 				name: 'Personal Setting',
 				icon: 'form',
 				component: './Users/Info/Infos',

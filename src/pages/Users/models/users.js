@@ -45,27 +45,28 @@ export default {
             const list = yield call(queryAllUsers);
             yield put({ type: 'save', payload: { list } });
         },
-        *queryUser({payload:{email}}, { put, call }) {
-            const user = yield call(queryUser,{email})
-            if(user){
-                yield put({ type: 'save', payload: { list:[user] } });
-            }else{
-                yield put({ type: 'save', payload: { list:[] } });
+        *queryUser({ payload: { email } }, { put, call }) {
+            const user = yield call(queryUser, { email })
+            if (user) {
+                yield put({ type: 'save', payload: { list: [user] } });
+            } else {
+                yield put({ type: 'save', payload: { list: [] } });
             }
 
         },
-        *updateUser({payload}, { put, call }) {
-            console.log(payload);
-            yield call(updateUser, payload)            
-            yield put({type:'getAllUsers'})
+        *updateUser({ payload }, { put, call }) {
+            yield call(updateUser, payload)
+            yield put({ type: 'getAllUsers' })
         },
-        *deleteUser({payload:{id}}, { put, call }) {
-            yield call(deleteUser,id);
-            yield put({type:'getAllUsers'})
+        *deleteUser({ payload: { id } }, { put, call }) {
+            yield call(deleteUser, id);
+            yield put({ type: 'getAllUsers' })
         },
         *addUser({ payload }, { put, call }) {
-            yield call(addUser, payload)            
-            yield put({type:'getAllUsers'})
+            console.log(222)
+            yield call(addUser, payload)
+            console.log(333)
+            yield put({ type: 'getAllUsers' })
         },
 
 
