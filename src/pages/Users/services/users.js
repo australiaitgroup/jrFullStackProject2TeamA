@@ -3,10 +3,8 @@ const baseUrl = `http://${SERVER}:${SERVER_PORT}/api`
 
 const defaultPwd = 123456;
 export function addUser(params) {
-    const { password } = params;
-    if (!password) {
-        password = defaultPwd;
-    }
+    const { confirm } = params;
+    const password = confirm ||defaultPwd;
     const newParams = {
         ...params,
         password,

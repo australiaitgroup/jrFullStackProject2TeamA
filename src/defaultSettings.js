@@ -9,7 +9,7 @@ module.exports = {
   "menu": {
     "disableLocal": false
   },
-  "title": "Ant Design Pro",
+  "title": "E  Leave",
   "pwa": true,
   "iconfontUrl": "",
   "collapse": true

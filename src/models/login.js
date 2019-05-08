@@ -103,8 +103,8 @@ export default {
           }
         }
         const defaultRedirect = response.payload.role==="admin"
-        ?'/allusers'
-        :'/userinfo'
+        ?'/leave-management'
+        :'/leave-detail';
         // yield put(routerRedux.replace(redirect || '/'));
         yield put(routerRedux.replace(defaultRedirect));
       }
