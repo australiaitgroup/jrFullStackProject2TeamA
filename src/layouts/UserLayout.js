@@ -30,7 +30,7 @@ const links = [
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2019 JR Academy
+    Copyright <Icon type="copyright" /> 2019 JR Academy TeamA
   </Fragment>
 );
 
@@ -70,7 +70,7 @@ class UserLayout extends Component {
             </div>
             {children}
           </div>
-          <GlobalFooter links={links} copyright={copyright} />
+          <GlobalFooter copyright={copyright} />
         </div>
       </DocumentTitle>
     );
