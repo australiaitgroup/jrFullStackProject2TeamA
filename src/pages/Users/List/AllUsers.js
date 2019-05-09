@@ -7,7 +7,7 @@ import InfoModal from './InfoModal';
 
 
 //queryUser component
-@connect()
+@connect(({ loading }) => ({ loading: loading.models.users }))
 @Form.create()
 class QueryUser extends Component {
 
@@ -58,7 +58,10 @@ class QueryUser extends Component {
 
 @connect(state => {
 	// const userList=[];
-	return { userList: state.users.list }
+	return {
+		userList: state.users.list,
+		loading: state.loading.models.users
+	}
 })
 @Form.create()
 class AllUsers extends Component {
@@ -110,12 +113,13 @@ class AllUsers extends Component {
 
 
 	render() {
-		const { userList } = this.props;
+		const { userList, loading } = this.props;
+		console.log(loading);
 		const newUserList = userList.map(user => {
-				return {
-					...user,
-					name: `${user.firstName} ${user.lastName}`
-				}
+			return {
+				...user,
+				name: `${user.firstName} ${user.lastName}`
+			}
 		})
 		return (
 			<Fragment>
@@ -125,6 +129,7 @@ class AllUsers extends Component {
 						<Table
 							columns={this.columns}
 							dataSource={newUserList}
+							loading={loading}
 						/>
 					</div>
 				</div>

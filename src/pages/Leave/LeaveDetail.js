@@ -8,7 +8,11 @@ import { routerRedux } from 'dva/router';
 import styles from './leaveDetail.less';
 
 @connect(state => {
-    return { leavesByUser: state.leaves.list }
+    console.log(state.loading.models.leaves)
+    return {
+        leavesByUser: state.leaves.list,
+        loading: state.loading.models.leaves,
+    }
 })
 @Form.create()
 class leaveDetails extends Component {
@@ -16,21 +20,12 @@ class leaveDetails extends Component {
         const { dispatch } = this.props;
         dispatch({ type: 'leaves/getLeavesByUser' })
     }
-    approveHandler = () => {
-
-        const { dispatch } = this.props;
-        dispatch({ type: 'users/deleteUser', payload: { id } })
-    };
-    rejectHandler = (id) => {
-        const { dispatch } = this.props;
-        dispatch({ type: 'users/deleteUser', payload: { id } })
-    };
 
     columns = [
         {
             title: 'Start Time',
             dataIndex: 'startTime',
-            key: 'satartTime',
+            key: 'startTime',
             render: text => <a >{text}</a>,
         },
         {
@@ -48,12 +43,12 @@ class leaveDetails extends Component {
             dataIndex: 'status',
             key: 'status',
             render: (text, record) => {
-                const leaveStatus = 
-                record.isApproved === 'approve' 
-                ? 'Approved' : record.isApproved === "reject" ? 'reject' : 'Processing'
+                const leaveStatus =
+                    record.isApproved === 'approve'
+                        ? 'Approved' : record.isApproved === "reject" ? 'reject' : 'Processing'
                 return (
                     <span>
-                        <a onClick={this.approveHandler}>{leaveStatus}</a>
+                        <a >{leaveStatus}</a>
                     </span>
                 )
             }
@@ -64,13 +59,21 @@ class leaveDetails extends Component {
     render() {
         const { Step } = Steps;
         let ProcessStatus = 0;
-        const { leavesByUser } = this.props
-        if(leavesByUser.length>0){
-            if(leavesByUser[0].isApproved==='pending'){
-                ProcessStatus=1;
-            }else{
-                ProcessStatus=2;
+        const { leavesByUser,loading } = this.props
+        let leaves = [];
+        if (leavesByUser.length > 0) {
+            if (leavesByUser[0].isApproved === 'pending') {
+                ProcessStatus = 1;
+            } else {
+                ProcessStatus = 2;
             }
+            leaves = leavesByUser.map((item) => {
+                return {
+                    ...item,
+                    startTime: item.startTime.slice(0, 10),
+                    endTime: item.endTime.slice(0, 10),
+                }
+            })
         }
         return (
             <Fragment>
@@ -89,7 +92,8 @@ class leaveDetails extends Component {
                         <div className={styles.tableListForm}>
                             <Table
                                 columns={this.columns}
-                                dataSource={leavesByUser}
+                                dataSource={leaves}
+                                loading={loading}
                             />
                         </div>
                     </div>

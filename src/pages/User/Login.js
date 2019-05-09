@@ -59,7 +59,7 @@ class LoginPage extends Component {
         >
             <UserName
               name="userName"
-              placeholder={`${formatMessage({ id: 'app.login.userName' })}: admin or user`}
+              placeholder={`${formatMessage({ id: 'app.login.userName' })}: admin@admin.com`}
               rules={[
                 {
                   required: true,
@@ -69,7 +69,7 @@ class LoginPage extends Component {
             />
             <Password
               name="password"
-              placeholder={`${formatMessage({ id: 'app.login.password' })}: ant.design`}
+              placeholder={`${formatMessage({ id: 'app.login.password' })}: admin`}
               rules={[
                 {
                   required: true,
