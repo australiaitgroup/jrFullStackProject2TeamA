@@ -45,7 +45,7 @@ class leaveDetails extends Component {
             render: (text, record) => {
                 const leaveStatus =
                     record.isApproved === 'approve'
-                        ? 'Approve' : record.isApproved === "Reject" ? 'reject' : 'Processing'
+                        ? 'Approve' : record.isApproved === "reject" ? 'Reject' : 'Processing'
                 return (
                     <span>
                         <a >{leaveStatus}</a>

@@ -1,5 +1,6 @@
 import { addLeave, getLeave, getLeaves, deleteLeave } from '@/services/leaves';
 import { getLeaveRequest, approveLeave, getLeavesByUser,getLeaveApprove,getLeaveReject } from '../services/leaves';
+import { notification } from 'antd';
 export default {
 	namespace: 'leaves',
 	state: {
@@ -44,6 +45,9 @@ export default {
 		*approveLeave({ payload }, { put, call }) {
 			console.log(payload);
 			yield call(approveLeave, payload);
+			notification.success({
+					message: `${payload.action} Successfully`,
+			})
 			yield put({ type: 'getLeaveRequest' });
 		},
 		*getLeavesByUser(action, { put, call }) {
