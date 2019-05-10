@@ -5,7 +5,9 @@ import {
     Form, Row, Col, Input, Divider, Card, Steps
 } from 'antd';
 import { routerRedux } from 'dva/router';
+import { formatMessage, FormattedMessage } from 'umi/locale';
 import styles from './leaveDetail.less';
+import moment from 'moment';
 
 @connect(state => {
     console.log(state.loading.models.leaves)
@@ -23,38 +25,60 @@ class leaveDetails extends Component {
 
     columns = [
         {
-            title: 'Start Time',
+            title: formatMessage({ id: 'leaves.list.starttime' }),
             dataIndex: 'startTime',
             key: 'startTime',
-            render: text => <a >{text}</a>,
+            render: text => <p>{moment(text).format('YYYY.MM.DD HH:MM')}</p>,
         },
         {
-            title: 'End Time',
+            title: formatMessage({ id: 'leaves.list.endtime' }),
             dataIndex: 'endTime',
-            key: 'endTIme',
-            render: text => <a >{text}</a>,
+            key: 'endTime',
+            render: text => <p>{moment(text).format('YYYY.MM.DD HH:MM')}</p>,
         },
         {
-            title: 'Description',
+            title: formatMessage({ id: 'leaves.list.duration' }),
+            dataIndex: 'duration',
+            key: 'duration',
+            render: text => <p>{text}h</p>
+        },
+        {
+            title: formatMessage({ id: 'leaves.list.leavetype' }),
+            dataIndex: 'leaveType.leaveSubType',
+            key: 'leaveSubType',
+        },
+        {
+            title: formatMessage({ id: 'leaves.list.paid' }),
+            dataIndex: 'leaveType.Paid',
+            key: 'paid',
+            render: text => <p>{text.toString()}</p>
+        },
+        {
+            title: formatMessage({ id: 'leave.leaveApplication.description' }),
             dataIndex: 'description',
             key: 'description',
         },
         {
-            title: 'Status',
+            title: formatMessage({ id: 'leave.leaveApplication.status' }),
             dataIndex: 'status',
             key: 'status',
+            filters:[{text:'Processing', value:'pending'},{text:'Rejected',value:'reject'},{text:'Approved',value:'approve'}],
             render: (text, record) => {
-                const leaveStatus =
-                    record.isApproved === 'approve'
-                        ? 'Approve' : record.isApproved === "reject" ? 'Reject' : 'Processing'
+                const leaveStatus = 
+                record.isApproved === 'approve' 
+                ? 'Approved' : record.isApproved === "reject" ? 'Rejected' : 'Processing'
                 return (
                     <span>
-                        <a >{leaveStatus}</a>
+                        <p>{leaveStatus}</p>
                     </span>
                 )
             }
         },
     ];
+
+    // handleTableChange = (filters)=>{
+
+    // }
 
 
     render() {
@@ -78,15 +102,6 @@ class leaveDetails extends Component {
         }
         return (
             <Fragment>
-                <Card title="My Leave Request"
-                    bordered={false}
-                    style={{ marginBottom: '30px' }}>
-                    <Steps progressDot current={ProcessStatus}>
-                        <Step title="No Recent Request" description="" />
-                        <Step title="In Processing" description="" />
-                        <Step title="Processed" description="" />
-                    </Steps>
-                </Card>
                 <Card title="Leave History"
                     bordered={false}>
                     <div className={styles.tableList}>
@@ -99,10 +114,7 @@ class leaveDetails extends Component {
                         </div>
                     </div>
                 </Card>
-
             </Fragment>
-
-
         )
     }
 

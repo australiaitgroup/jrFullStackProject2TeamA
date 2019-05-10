@@ -17,62 +17,60 @@ export default [
 	// app
 
 	{
-		path: '/',
 		component: '../layouts/BasicLayout',
-		Routes: ['src/pages/Authorized'],
-		authority: ['admin', 'staff'],
 		routes: [
-			{ path: '/', redirect: '/leave-detail' },
+			{ path: '/', redirect: '/personal' },
 			{
 				path: '/leave-application',
 				name: 'leaveapplication',
 				icon: 'form',
 				component: './Leave/LeaveApplication',
-
+				Routes: ['src/pages/Authorized'],
+				authority: ['staff'],
+			},
+			
+			{
+				path: '/leave-history',
+				name: 'leavestatus',
+				component: './Leave/LeaveDetail',
+				icon: 'profile',
+				Routes: ['src/pages/Authorized'],
+				authority: ['staff'],
 			},
 			{
 				path: '/leave-management',
-				name: 'Leave Management',
+				name: 'leavemanagement',
 				icon: 'solution',
+				Routes: ['src/pages/Authorized'],
+				authority: ['admin'],
 				routes: [
 					{
 						path: '/leave-management',
-						redirect: '/leave-management/leaverequest',
+						redirect: '/leave-management/leave-request',
 					},
 					{
-						path: '/leave-management/leaverequest',
+						path: '/leave-management/leave-request',
 						component: './Leave/LeaveRequest',
 					},
 					 {
-						path: '/leave-management/leaveapproved',
+						path: '/leave-management/leave-approved',
 						component: './Leave/LeaveApproved',
 					}
 				]
 			},
 			{
-				path: '/leave-detail',
-				name: 'Leave Status',
-				component: './Leave/LeaveDetail',
-				icon: 'form',
-				// hideInMenu: true,
+				path: '/users',
+				name: 'usermanagement',
+				icon: 'usergroup-add',
+				component: './Users/List/Allusers',
+				Routes: ['src/pages/Authorized'],
+				authority: ['admin'],
 			},
-			// Users
 			{
 				path: '/personal',
-				name: 'Personal Setting',
-				icon: 'form',
+				name: 'personalsetting',
+				icon: 'user',
 				component: './Users/Info/Infos',
-
-			},
-			{
-				path: '/users',
-				name: 'User Management',
-				icon: 'form',
-				component: './Users/List/Allusers',
-				// authority: ['admin']
-			},
-			{
-				component: '404',
 			},
 		],
 	},

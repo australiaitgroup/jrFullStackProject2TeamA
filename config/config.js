@@ -62,7 +62,7 @@ export default {
   plugins,
   define: {
     APP_TYPE: APP_TYPE || '',
-    SERVER: process.env.SERVER || localhost,
+    SERVER: process.env.SERVER || "localhost",
     SERVER_PORT: process.env.SERVER_PORT || 3000
   },
   treeShaking: true,

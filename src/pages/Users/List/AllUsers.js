@@ -36,7 +36,7 @@ class QueryUser extends Component {
 							{getFieldDecorator('email')(<Input placeholder="Email" />)}
 						</Form.Item>
 					</Col>
-					<Col md={8} sm={24}>
+					<Col md={12} sm={24}>
 						<span className={styles.submitButtons}>
 							<Button type="primary" htmlType="submit">
 								Search

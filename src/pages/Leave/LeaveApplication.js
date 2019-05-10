@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import router from 'umi/router';
 import { connect } from 'dva';
 import moment from 'moment';
 import { formatMessage, FormattedMessage } from 'umi/locale';
@@ -13,11 +14,14 @@ import {
 	Radio,
 	Icon,
 	Tooltip,
+	Alert,
+	Modal
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './LeaveApplication.less';
 
 const FormItem = Form.Item;
+const confirm = Modal.confirm;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -31,14 +35,15 @@ const ormat = 'HH';
 }))
 @Form.create()
 class LeaveApplication extends PureComponent {
-	state = {
-		applicant: '',
-		description: '',
-		leaveType: '',
-		supervisor: '',
-		startTime: '',
-		endTime: '',
-		paid: '',
+	state={
+		applicant:'',
+		description:'',
+		leaveType:'',
+		supervisor:'',
+		startTime:'',
+		endTime:'',
+		paid:'',
+		timeError:false,
 	}
 	componentDidMount() {
 		const { dispatch } = this.props;
@@ -55,19 +60,78 @@ class LeaveApplication extends PureComponent {
 		const chosenLeaveType = this.state.leaveType;
 		const currentSupervisor = this.state.supervisor;
 		form.validateFieldsAndScroll((err, values) => {
-			values["applicant"] = currentUser._id;
-			if (!err) {
-				dispatch({
-					type: 'leaves/addNewLeave',
-					payload: values
-				});
+			values["applicant"]=currentUser._id;
+			const annualLeaveBalance = currentUser.annualLeaveBalance;
+			const personalLeaveBalance = currentUser.personalLeaveBalance;
+			const startTime = moment(values.startTime).toDate();
+			const endTime = moment(values.endTime).toDate();
+			const type = values["leaveSubType"];
+			const paid = values["paid"];
+			const duration = Math.ceil((endTime-startTime)/3600000);
+			console.log(type);
+			console.log(paid);
+			let isError = false;
+			let isZeroAnnualBalance=false;
+			let isZeroPersonalBalance=false;
+			// if type
+			if(duration < 0){
+				isError = true;
+				this.setState({
+					timeError: true,
+				})
+			}
+			if(type==='annual' && annualLeaveBalance-duration<0){
+				isZeroAnnualBalance=true;
+			}
+			if(type==='personal' && personalLeaveBalance-duration<0){
+				isZeroPersonalBalance=true;
+			}
+			if (!err && !isError) {
+				if(isZeroAnnualBalance || isZeroPersonalBalance){
+					if(isZeroAnnualBalance){
+						confirm({
+							title: 'Annual Leave Balance Warning',
+							content: 'Your annual leave balance tends to be negative. If you confirm to submit the application, Click Confirm',
+							onOk() {
+								dispatch({
+									type: 'leaves/addNewLeave',
+									payload: values
+								});
+								window.location.replace("/leave-history");
+							},
+							onCancel() {},
+						});
+					}
+					if(isZeroPersonalBalance){
+						confirm({
+							title: 'Personal Leave Balance Warning',
+							content: 'Your personal leave balance tends to be negative. If you confirm to submit the application, Click Confirm',
+							onOk() {
+								dispatch({
+									type: 'leaves/addNewLeave',
+									payload: values
+								});
+								window.location.replace("/leave-history");
+							},
+							onCancel() {},
+						});
+					}
+				}else{
+					dispatch({
+						type: 'leaves/addNewLeave',
+						payload: values
+					});
+					window.location.replace("/leave-history");
+				}
 			}
 		});
 	};
 
 	render() {
-		const { user, loading } = this.props;
-		const { admins } = user;
+		const {user} = this.props;
+		const {timeError}=this.state;
+		console.log(timeError);
+		const {admins}= user;
 		const {
 			form: { getFieldDecorator, getFieldValue },
 		} = this.props;
@@ -90,24 +154,18 @@ class LeaveApplication extends PureComponent {
 				sm: { span: 10, offset: 7 },
 			},
 		};
+		
 
 		return (
 			<PageHeaderWrapper
 				title={<FormattedMessage id="leaves.applicationForm.title" />}
 				content={<FormattedMessage id="leaves.applicationForm.description" />}
 			>
+				{timeError?<div>
+					<Alert type="error" message="The start time should be earlier than the end time!" banner closable/>
+				</div>:null}
 				<Card bordered={false}>
 					<Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-						{/* <FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.user" />}>
-						{getFieldDecorator('applicant', {
-							rules: [
-							{
-								required: true,
-								message: formatMessage({ id: 'validation.title.required' }),
-							},
-							],
-						})(<Input placeholder={formatMessage({ id: 'leaves.user.placeholder' })} />)}
-						</FormItem> */}
 						<FormItem {...formItemLayout} label={<FormattedMessage id="form.date.label" />}>
 							{getFieldDecorator('startTime', {
 								rules: [
@@ -209,12 +267,9 @@ class LeaveApplication extends PureComponent {
 							)}
 						</FormItem>
 						<FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-							<Button type="primary" htmlType="submit" loading={loading} >
-								<FormattedMessage id="form.submit" />
-							</Button>
-							<Button style={{ marginLeft: 8 }}>
-								<FormattedMessage id="form.save" />
-							</Button>
+						<Button type="primary" htmlType="submit">
+							<FormattedMessage id="form.submit" />
+						</Button>
 						</FormItem>
 					</Form>
 				</Card>

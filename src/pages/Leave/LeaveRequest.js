@@ -4,6 +4,8 @@ import { Table, Pagination, Popconfirm, Button, Form, Row, Col, Input, Divider, 
 import { routerRedux } from 'dva/router';
 import styles from './leaveRequest.less';
 import Link from 'umi/link';
+import { formatMessage, FormattedMessage } from 'umi/locale';
+import moment from 'moment';
 
 @connect()
 class Action extends Component {
@@ -54,30 +56,7 @@ class LeaveRequest extends Component {
 
 	columns = [
 		{
-			title: 'Name',
-			dataIndex: 'name',
-			key: 'name',
-			render: text => <a href="">{text}</a>,
-		},
-		{
-			title: 'Email',
-			dataIndex: 'email',
-			key: 'email',
-		},
-		{
-			title: 'Start Time',
-			dataIndex: 'startTime',
-			key: 'startTime',
-			render: text => text.slice(0, 10),
-		},
-		{
-			title: 'End Time',
-			dataIndex: 'endTime',
-			key: 'endTIme',
-			render: text => text.slice(0, 10)
-		},
-		{
-			title: 'Actions',
+			title: formatMessage({ id: 'leaves.list.action' }),
 			dataIndex: 'actions',
 			key: 'actions',
 			render: (text, record) => {
@@ -91,6 +70,62 @@ class LeaveRequest extends Component {
 				)
 			}
 		},
+		{
+			title: formatMessage({ id: 'leaves.list.name' }),
+			dataIndex: 'name',
+			key: 'name',
+			render: text => <a href="">{text}</a>,
+		},
+		{
+			title: formatMessage({ id: 'leaves.list.email' }),
+			dataIndex: 'email',
+			key: 'email',
+		},
+		{
+			title: formatMessage({ id: 'leaves.list.annualLeaveBalance' }),
+			dataIndex: 'annualLeaveBalance',
+			key: 'annualLeaveBalance',
+		},
+		{
+			title: formatMessage({ id: 'leaves.list.personalLeaveBalance' }),
+			dataIndex: 'personalLeaveBalance',
+			key: 'personalLeaveBalance',
+		},
+		{
+            title: formatMessage({ id: 'leaves.list.starttime' }),
+            dataIndex: 'startTime',
+            key: 'startTime',
+            render: text => <p>{moment(text).format('YYYY.MM.DD HH:MM')}</p>,
+        },
+        {
+            title: formatMessage({ id: 'leaves.list.endtime' }),
+            dataIndex: 'endTime',
+            key: 'endTime',
+            render: text => <p>{moment(text).format('YYYY.MM.DD HH:MM')}</p>,
+        },
+		{
+			title: formatMessage({ id: 'leaves.list.duration' }),
+			dataIndex: 'duration',
+			key: 'duration',
+			render: text => <p>{text}h</p>
+		},
+		{
+            title: formatMessage({ id: 'leaves.list.leavetype' }),
+            dataIndex: 'leaveSubType',
+            key: 'leaveSubType',
+        },
+        {
+            title: formatMessage({ id: 'leaves.list.paid' }),
+            dataIndex: 'Paid',
+            key: 'paid',
+            render: text => <p>{text.toString()}</p>
+        },
+        {
+            title: formatMessage({ id: 'leave.leaveApplication.description' }),
+            dataIndex: 'description',
+            key: 'description',
+        },
+		
 	];
 
 
@@ -100,34 +135,23 @@ class LeaveRequest extends Component {
 		let leaveList = []
 		if (requestList.length > 0) {
 			leaveList = requestList.map((request) => {
-				const { applicant: { email, firstName, lastName, x } } = request
+				const { applicant: { email, firstName, lastName, annualLeaveBalance, personalLeaveBalance,x },duration,startTime,endTime,description,leaveType:{leaveSubType,Paid} } = request
 				return {
 					...request,
 					email,
 					x,
-					name: `${firstName} ${lastName}`
+					name: `${firstName} ${lastName}`,
+					annualLeaveBalance, 
+					personalLeaveBalance,
+					leaveSubType,
+					Paid,
 				}
 			})
 		}
 
-		const dataSource = [
-			{
-				name: 'alex',
-				email: 'alex@gmail.com',
-			},
-			{
-				name: 'alex2',
-				email: 'alex@gmail.com',
-			},
-			{
-				name: 'alex3',
-				email: 'alex@gmail.com',
-			},
-
-		]
 		return (
 			<Fragment>
-				<Card title="My Leave Approvals"
+				<Card title={<FormattedMessage id="leaves.title.leaves" />} 
 					extra={<Link to='/leave-management/leaveapproved'>Leave Approved</Link>}
 					bordered={false}>
 					<div className={styles.tableList}>
