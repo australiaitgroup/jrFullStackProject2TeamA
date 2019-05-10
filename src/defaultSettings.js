@@ -1,9 +1,10 @@
-module.exports = {
-  "navTheme": "light",
-  "primaryColor": "#1890FF",
+module.exports = 
+{
+  "navTheme": "dark",
+  "primaryColor": "#595959",
   "layout": "sidemenu",
   "contentWidth": "Fluid",
-  "fixedHeader": false,
+  "fixedHeader": true,
   "autoHideHeader": false,
   "fixSiderbar": false,
   "menu": {

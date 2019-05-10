@@ -104,7 +104,7 @@ export default {
         }
         const defaultRedirect = response.payload.role==="admin"
         ?'/leave-management'
-        :'/leave-detail';
+        :'/leave-history';
         // yield put(routerRedux.replace(redirect || '/'));
         yield put(routerRedux.replace(defaultRedirect));
       }

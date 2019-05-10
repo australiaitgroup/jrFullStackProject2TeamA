@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Form, Modal, Input, Row, Col } from 'antd'
 import { assignAll } from 'lodash-decorators/utils';
 import styles from './InfoModal.less'
+import { formatMessage, FormattedMessage } from 'umi/locale';
 
 @connect()
 @Form.create()
@@ -82,7 +83,7 @@ class InfoModal extends Component {
                     <Form layout="horizontal" hideRequiredMark>
                         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} >
                             <Col span={12}>
-                                <FormItem label="First Name">
+                                <FormItem label={formatMessage({ id: 'user.firstname' })}>
                                     {getFieldDecorator('firstName', {
                                         rules: [
                                             {
@@ -93,7 +94,7 @@ class InfoModal extends Component {
                                 </FormItem>
                             </Col>
                             <Col span={12}>
-                                <FormItem label='Last Name'>
+                                <FormItem label={formatMessage({ id: 'user.lastname' })}>
                                     {getFieldDecorator('lastName', {
                                         rules: [
                                             {
@@ -104,7 +105,7 @@ class InfoModal extends Component {
                                 </FormItem>
                             </Col>
                         </Row>
-                        <FormItem label='Email'>
+                        <FormItem label={formatMessage({ id: 'user.email' })}>
                             {getFieldDecorator('email', {
                                 rules: [
                                     {
@@ -113,7 +114,7 @@ class InfoModal extends Component {
                                 ],
                             })(<Input />)}
                         </FormItem>
-                        <FormItem label="Address">
+                        <FormItem label={formatMessage({ id: 'user.address' })}>
                             {getFieldDecorator('address', {
                                 rules: [
                                     {

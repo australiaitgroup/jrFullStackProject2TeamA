@@ -5,6 +5,7 @@ import { Tabs } from 'antd';
 import styles from './Infos.less'
 import InfoDetail from './InfoDetail'
 import SecurityView from './SecurityView'
+import { formatMessage, FormattedMessage } from 'umi/locale';
 const TabPane = Tabs.TabPane;
 @connect()
 class Info extends Component {
@@ -21,11 +22,11 @@ class Info extends Component {
 							defaultActiveKey="1"
 							tabPosition='left'
 						>
-							<TabPane tab="Personal info" key="1">
+							<TabPane tab={<FormattedMessage id="user.personalInfo" />}key="1">
 								<InfoDetail />
 								
 							</TabPane>
-							<TabPane tab="Security" key="2">
+							<TabPane tab={<FormattedMessage id="user.security" />} key="2">
 								<SecurityView />
 							</TabPane>
 						</Tabs>

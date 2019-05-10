@@ -4,7 +4,7 @@ import { Table, Pagination, Popconfirm, Button, Form, Row, Col, Input, Divider }
 import { routerRedux } from 'dva/router';
 import styles from './AllUsers.less';
 import InfoModal from './InfoModal';
-
+import { formatMessage, FormattedMessage } from 'umi/locale';
 
 //queryUser component
 @connect(({ loading }) => ({ loading: loading.models.users }))
@@ -32,19 +32,19 @@ class QueryUser extends Component {
 			<Form onSubmit={this.handleSearch} layout="inline">
 				<Row gutter={{ md: 8, lg: 24, xl: 48 }}>
 					<Col md={10} sm={24}>
-						<Form.Item label="Email">
-							{getFieldDecorator('email')(<Input placeholder="Email" />)}
+						<Form.Item label={formatMessage({ id: 'user.email' })}>
+							{getFieldDecorator('email')(<Input placeholder={formatMessage({ id: 'user.email' })} />)}
 						</Form.Item>
 					</Col>
-					<Col md={8} sm={24}>
+					<Col md={12} sm={24}>
 						<span className={styles.submitButtons}>
 							<Button type="primary" htmlType="submit">
-								Search
+								{formatMessage({ id: 'user.search' })}
 			  				</Button>
-							<InfoModal title="Add User" record={{}}>
+							<InfoModal title={formatMessage({ id: 'user.add' })} record={{}}>
 								<Button icon="plus" style={{ marginLeft: 8 }}>
-									New User
-			  				</Button>
+									{formatMessage({ id: 'user.newUser' })}
+								</Button>
 							</InfoModal>
 						</span>
 					</Col>
@@ -75,23 +75,23 @@ class AllUsers extends Component {
 	};
 	columns = [
 		{
-			title: 'Name',
+			title: formatMessage({ id: 'leaves.list.name' }),
 			dataIndex: 'name',
 			key: 'name',
 			render: text => <a href="">{text}</a>,
 		},
 		{
-			title: 'Email',
+			title: formatMessage({ id: 'user.email' }),
 			dataIndex: 'email',
 			key: 'email',
 		},
 		{
-			title: 'Address',
+			title: formatMessage({ id: 'user.address' }),
 			dataIndex: 'address',
 			key: 'address',
 		},
 		{
-			title: 'Actions',
+			title: formatMessage({ id: 'leaves.list.action' }),
 			dataIndex: 'actions',
 			key: 'actions',
 			render: (text, record) => {
