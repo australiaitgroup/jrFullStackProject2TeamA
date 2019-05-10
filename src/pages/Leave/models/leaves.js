@@ -1,5 +1,5 @@
 import { addLeave, getLeave, getLeaves, deleteLeave } from '@/services/leaves';
-import { getLeaveRequest, approveLeave, getLeavesByUser } from '../services/leaves';
+import { getLeaveRequest, approveLeave, getLeavesByUser,getLeaveApprove,getLeaveReject } from '../services/leaves';
 export default {
 	namespace: 'leaves',
 	state: {
@@ -17,7 +17,6 @@ export default {
 				type: 'listLeaves',
 				payload: response.data,
 			});
-
 		},
 		*fetchLeaveById({ payload }, { call, put }) {
 			const response = yield call(getLeave, payload.id);
@@ -27,13 +26,19 @@ export default {
 			});
 		},
 		*addNewLeave({ payload }, { call }) {
-			console.log('aaa');
 			yield call(addLeave, payload);
 		},
 		*getLeaveRequest(action, { put, call }) {
-			console.log('get leave request')
 			const list = yield call(getLeaveRequest);
-			console.log(list)
+			yield put({ type: 'save', payload: { list } });
+		},
+		*getLeaveApproved(action, { put, call }) {
+			const listApprove = yield call(getLeaveApprove);
+			const listReject = yield call(getLeaveReject);
+			const list = [
+				...listApprove,
+				...listReject
+			];
 			yield put({ type: 'save', payload: { list } });
 		},
 		*approveLeave({ payload }, { put, call }) {

@@ -6,6 +6,16 @@ export function getLeaveRequest() {
         method: 'GET'
     })
 }
+export function getLeaveApprove() {
+    return request(`${baseUrl}/leaves/status/approve`, {
+        method: 'GET'
+    })
+}
+export function getLeaveReject() {
+    return request(`${baseUrl}/leaves/status/reject`, {
+        method: 'GET'
+    })
+}
 
 export function getLeaveApproved() {
 
