@@ -30,7 +30,7 @@ class InfoDetail extends Component {
                     <Form layout="horizontal" onSubmit={this.handleSubmit} hideRequiredMark>
                         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                             <Col span={12}>
-                                <FormItem label="First Name">
+                                <FormItem label={formatMessage({ id: 'user.firstname' })}>
                                     {getFieldDecorator('firstName', {
                                         rules: [
                                             {
@@ -42,7 +42,7 @@ class InfoDetail extends Component {
                                 </FormItem>
                             </Col>
                             <Col span={12} >
-                                <FormItem label='Last Name'>
+                                <FormItem label={formatMessage({ id: 'user.lastname' })}>
                                     {getFieldDecorator('lastName', {
                                         rules: [
                                             {
@@ -64,7 +64,7 @@ class InfoDetail extends Component {
                                 ],
                             })(<Input />)}
                         </FormItem>
-                        <FormItem label="Address">
+                        <FormItem label={formatMessage({ id: 'user.address' })}>
                             {getFieldDecorator('address', {
                                 rules: [
                                     {

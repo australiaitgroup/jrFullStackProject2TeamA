@@ -90,8 +90,8 @@ class LeaveApplication extends PureComponent {
 				if(isZeroAnnualBalance || isZeroPersonalBalance){
 					if(isZeroAnnualBalance){
 						confirm({
-							title: 'Annual Leave Balance Warning',
-							content: 'Your annual leave balance tends to be negative. If you confirm to submit the application, Click Confirm',
+							title: formatMessage({ id: 'leaves.annualLeaveBalance.WarningTitle' }),
+							content: formatMessage({ id: 'leaves.annualLeaveBalance.WarningContent' }),
 							onOk() {
 								dispatch({
 									type: 'leaves/addNewLeave',
@@ -104,8 +104,8 @@ class LeaveApplication extends PureComponent {
 					}
 					if(isZeroPersonalBalance){
 						confirm({
-							title: 'Personal Leave Balance Warning',
-							content: 'Your personal leave balance tends to be negative. If you confirm to submit the application, Click Confirm',
+							title: formatMessage({ id: 'leaves.personalLeaveBalance.WarningTitle' }),
+							content: formatMessage({ id: 'leaves.personalLeaveBalance.WarningContent' }),
 							onOk() {
 								dispatch({
 									type: 'leaves/addNewLeave',
@@ -162,16 +162,16 @@ class LeaveApplication extends PureComponent {
 				content={<FormattedMessage id="leaves.applicationForm.description" />}
 			>
 				{timeError?<div>
-					<Alert type="error" message="The start time should be earlier than the end time!" banner closable/>
+					<Alert type="error" message={<FormattedMessage id="leaves.timeError.message" />} banner closable/>
 				</div>:null}
 				<Card bordered={false}>
 					<Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-						<FormItem {...formItemLayout} label={<FormattedMessage id="form.date.label" />}>
+						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.startTime" />}>
 							{getFieldDecorator('startTime', {
 								rules: [
 									{
 										required: true,
-										message: formatMessage({ id: 'validation.date.required' }),
+										message: formatMessage({ id: 'leaves.validation.startTime' }),
 									},
 								],
 							})(
@@ -179,18 +179,16 @@ class LeaveApplication extends PureComponent {
 									showTime={{ format: 'HH:mm:ss' }}
 									format="YYYY-MM-DD HH:mm:ss"
 									style={{ width: '100%' }}
-									placeholder={[
-										formatMessage({ id: 'leaves.startDate.placeholder' }),
-									]}
+									placeholder={formatMessage({ id: 'leaves.startDate.placeholder' }).toString()}
 								/>
 							)}
 						</FormItem>
-						<FormItem {...formItemLayout} label={<FormattedMessage id="form.date.label" />}>
+						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.endTime" />}>
 							{getFieldDecorator('endTime', {
 								rules: [
 									{
 										required: true,
-										message: formatMessage({ id: 'validation.date.required' }),
+										message: formatMessage({ id: 'leaves.validation.endTime' }),
 									},
 								],
 							})(
@@ -198,9 +196,7 @@ class LeaveApplication extends PureComponent {
 									showTime={{ format: 'HH:mm:ss' }}
 									format="YYYY-MM-DD HH:mm:ss"
 									style={{ width: '100%' }}
-									placeholder={[
-										formatMessage({ id: 'leaves.endDate.placeholder' }),
-									]}
+									placeholder={formatMessage({ id: 'leaves.endDate.placeholder' }).toString()}
 								/>
 							)}
 						</FormItem>
@@ -209,7 +205,7 @@ class LeaveApplication extends PureComponent {
 								rules: [
 									{
 										required: true,
-										message: formatMessage({ id: 'validation.title.required' }),
+										message: formatMessage({ id: 'leaves.validation.leaveType' }),
 									},
 								],
 							})(
@@ -224,7 +220,7 @@ class LeaveApplication extends PureComponent {
 								rules: [
 									{
 										required: true,
-										message: formatMessage({ id: 'validation.title.required' }),
+										message: formatMessage({ id: 'leaves.validation.paid' }),
 									},
 								],
 							})(
@@ -239,7 +235,7 @@ class LeaveApplication extends PureComponent {
 								rules: [
 									{
 										required: true,
-										message: formatMessage({ id: 'validation.goal.required' }),
+										message: formatMessage({ id: 'leaves.validation.description' }),
 									},
 								],
 							})(
@@ -255,7 +251,7 @@ class LeaveApplication extends PureComponent {
 								rules: [
 									{
 										required: true,
-										message: formatMessage({ id: 'validation.title.required' }),
+										message: formatMessage({ id: 'leaves.validation.supervisor' }),
 									},
 								],
 							})(

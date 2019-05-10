@@ -65,7 +65,7 @@ class HeaderView extends Component {
       return;
     }
     if (key === 'userinfo') {
-      router.push('/userinfo');
+      router.push('/personal');
       return;
     }
     if (key === 'logout') {

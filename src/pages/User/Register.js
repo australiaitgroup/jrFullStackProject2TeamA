@@ -255,7 +255,7 @@ class Register extends Component {
                 ],
               })(<Input 
                 size="large"
-                placeholder='First Name'
+                placeholder={formatMessage({ id: 'user.firstname' })}
               />)}
               </FormItem>
             </Col>
@@ -268,7 +268,7 @@ class Register extends Component {
                 ],
               })(<Input 
                 size='large'
-                placeholder='Last Name'
+                placeholder={formatMessage({ id: 'user.lastname' })}
               />)}
               </FormItem>
             </Col>
