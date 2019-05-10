@@ -1,6 +1,8 @@
 import { addLeave, getLeave, getLeaves, deleteLeave } from '@/services/leaves';
-import { getLeaveRequest, approveLeave, getLeavesByUser,getLeaveApprove,getLeaveReject } from '../services/leaves';
+import { getLeaveRequest, approveLeave, getLeavesByUser, getLeaveApprove, getLeaveReject } from '../services/leaves';
 import { notification } from 'antd';
+import router from 'umi/router'
+
 export default {
 	namespace: 'leaves',
 	state: {
@@ -28,6 +30,10 @@ export default {
 		},
 		*addNewLeave({ payload }, { call }) {
 			yield call(addLeave, payload);
+			notification.success({
+				message: `Add New Leave Successfully`,
+			})
+			router.replace('/leave-detail')
 		},
 		*getLeaveRequest(action, { put, call }) {
 			const list = yield call(getLeaveRequest);
@@ -46,7 +52,7 @@ export default {
 			console.log(payload);
 			yield call(approveLeave, payload);
 			notification.success({
-					message: `${payload.action} Successfully`,
+				message: `${payload.action} Successfully`,
 			})
 			yield put({ type: 'getLeaveRequest' });
 		},

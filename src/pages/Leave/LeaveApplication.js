@@ -21,38 +21,41 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
-const ormat ='HH';
+const ormat = 'HH';
 
-@connect(({ leaves, user }) => ({
-  	leaves, user
+@connect(({ leaves, user, loading }) => ({
+	leaves,
+	user,
+	loading: loading.models.leaves,
+
 }))
 @Form.create()
 class LeaveApplication extends PureComponent {
-	state={
-		applicant:'',
-		description:'',
-		leaveType:'',
-		supervisor:'',
-		startTime:'',
-		endTime:'',
-		paid:'',
+	state = {
+		applicant: '',
+		description: '',
+		leaveType: '',
+		supervisor: '',
+		startTime: '',
+		endTime: '',
+		paid: '',
 	}
-	componentDidMount(){
-		const { dispatch} = this.props;
+	componentDidMount() {
+		const { dispatch } = this.props;
 		dispatch({
 			type: 'user/fetchAdmins',
 		});
 	}
 	handleSubmit = e => {
 		const { dispatch, form, user } = this.props;
-		const {currentUser} = user
+		const { currentUser } = user
 		e.preventDefault();
 		const currentApplicant = this.state.applicant;
 		const currentDescription = this.state.description;
 		const chosenLeaveType = this.state.leaveType;
 		const currentSupervisor = this.state.supervisor;
 		form.validateFieldsAndScroll((err, values) => {
-			values["applicant"]=currentUser._id;
+			values["applicant"] = currentUser._id;
 			if (!err) {
 				dispatch({
 					type: 'leaves/addNewLeave',
@@ -63,8 +66,8 @@ class LeaveApplication extends PureComponent {
 	};
 
 	render() {
-		const {user} = this.props;
-		const {admins}= user;
+		const { user, loading } = this.props;
+		const { admins } = user;
 		const {
 			form: { getFieldDecorator, getFieldValue },
 		} = this.props;
@@ -106,112 +109,112 @@ class LeaveApplication extends PureComponent {
 						})(<Input placeholder={formatMessage({ id: 'leaves.user.placeholder' })} />)}
 						</FormItem> */}
 						<FormItem {...formItemLayout} label={<FormattedMessage id="form.date.label" />}>
-						{getFieldDecorator('startTime', {
-							rules: [
-							{
-								required: true,
-								message: formatMessage({ id: 'validation.date.required' }),
-							},
-							],
-						})(
-							<DatePicker
-								showTime={{format:'HH:mm:ss'}}
-								format="YYYY-MM-DD HH:mm:ss"
-								style={{ width: '100%' }}
-								placeholder={[
-									formatMessage({ id: 'leaves.startDate.placeholder' }),
-								]}
-							/>
-						)}
+							{getFieldDecorator('startTime', {
+								rules: [
+									{
+										required: true,
+										message: formatMessage({ id: 'validation.date.required' }),
+									},
+								],
+							})(
+								<DatePicker
+									showTime={{ format: 'HH:mm:ss' }}
+									format="YYYY-MM-DD HH:mm:ss"
+									style={{ width: '100%' }}
+									placeholder={[
+										formatMessage({ id: 'leaves.startDate.placeholder' }),
+									]}
+								/>
+							)}
 						</FormItem>
 						<FormItem {...formItemLayout} label={<FormattedMessage id="form.date.label" />}>
-						{getFieldDecorator('endTime', {
-							rules: [
-							{
-								required: true,
-								message: formatMessage({ id: 'validation.date.required' }),
-							},
-							],
-						})(
-							<DatePicker
-								showTime={{format:'HH:mm:ss'}}
-								format="YYYY-MM-DD HH:mm:ss"
-								style={{ width: '100%' }}
-								placeholder={[
-									formatMessage({ id: 'leaves.endDate.placeholder' }),
-								]}
-							/>
-						)}
+							{getFieldDecorator('endTime', {
+								rules: [
+									{
+										required: true,
+										message: formatMessage({ id: 'validation.date.required' }),
+									},
+								],
+							})(
+								<DatePicker
+									showTime={{ format: 'HH:mm:ss' }}
+									format="YYYY-MM-DD HH:mm:ss"
+									style={{ width: '100%' }}
+									placeholder={[
+										formatMessage({ id: 'leaves.endDate.placeholder' }),
+									]}
+								/>
+							)}
 						</FormItem>
 						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.leaveType" />}>
-						{getFieldDecorator('leaveSubType', {
-							rules: [
-							{
-								required: true,
-								message: formatMessage({ id: 'validation.title.required' }),
-							},
-							],
-						})(
-							<Select >
-								<Option value="annual">Annual</Option>
-								<Option value="personal">Personal</Option>
-							</Select>
-						)}
+							{getFieldDecorator('leaveSubType', {
+								rules: [
+									{
+										required: true,
+										message: formatMessage({ id: 'validation.title.required' }),
+									},
+								],
+							})(
+								<Select >
+									<Option value="annual">Annual</Option>
+									<Option value="personal">Personal</Option>
+								</Select>
+							)}
 						</FormItem>
 						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.paid" />}>
-						{getFieldDecorator('paid', {
-							rules: [
-							{
-								required: true,
-								message: formatMessage({ id: 'validation.title.required' }),
-							},
-							],
-						})(
-							<Select >
-								<Option value="true">True</Option>
-								<Option value="false">False</Option>
-							</Select>
-						)}
+							{getFieldDecorator('paid', {
+								rules: [
+									{
+										required: true,
+										message: formatMessage({ id: 'validation.title.required' }),
+									},
+								],
+							})(
+								<Select >
+									<Option value="true">True</Option>
+									<Option value="false">False</Option>
+								</Select>
+							)}
 						</FormItem>
 						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.description" />}>
 							{getFieldDecorator('description', {
 								rules: [
-								{
-									required: true,
-									message: formatMessage({ id: 'validation.goal.required' }),
-								},
+									{
+										required: true,
+										message: formatMessage({ id: 'validation.goal.required' }),
+									},
 								],
 							})(
 								<TextArea
-								style={{ minHeight: 32 }}
-								placeholder={formatMessage({ id: 'leaves.description.placeholder' })}
-								rows={4}
+									style={{ minHeight: 32 }}
+									placeholder={formatMessage({ id: 'leaves.description.placeholder' })}
+									rows={4}
 								/>
 							)}
 						</FormItem>
 						<FormItem {...formItemLayout} label={<FormattedMessage id="leave.leaveApplication.supervisor" />}>
 							{getFieldDecorator('supervisor', {
 								rules: [
-								{
-									required: true,
-									message: formatMessage({ id: 'validation.title.required' }),
-								},
+									{
+										required: true,
+										message: formatMessage({ id: 'validation.title.required' }),
+									},
 								],
 							})(
 								<Select>
-									{admins?admins.map((item)=>
-										<Option value={item._id} key={item._id}>{item.firstName+" "+item.lastName+" : "+item.email}</Option>
-									):<Option value="select">select</Option>}
+									{admins ? admins.map((item) =>
+										<Option value={item._id} key={item._id}>{item.firstName + " " + item.lastName + " : " + item.email}</Option>
+									) : <Option value="select">select</Option>}
 								</Select>
 							)}
 						</FormItem>
 						<FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-						<Button type="primary" htmlType="submit">
-							<FormattedMessage id="form.submit" />
-						</Button>
-						<Button style={{ marginLeft: 8 }}>
-							<FormattedMessage id="form.save" />
-						</Button>
+							<Button type="primary" htmlType="submit" loading={loading} >
+								<FormattedMessage id="form.submit" />
+							</Button>
+							<Button style={{ marginLeft: 8 }}>
+								<FormattedMessage id="form.save" />
+							</Button>
 						</FormItem>
 					</Form>
 				</Card>

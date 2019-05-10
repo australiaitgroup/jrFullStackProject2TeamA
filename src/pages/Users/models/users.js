@@ -1,4 +1,5 @@
 import { addUser, queryAllUsers, queryUser, deleteUser, updateUser } from '../services/users'
+import { notification } from 'antd';
 
 export default {
     namespace: 'users',
@@ -56,6 +57,9 @@ export default {
         },
         *updateUser({ payload }, { put, call }) {
             yield call(updateUser, payload)
+            notification.success({
+                message: "Update User Successfully"
+            })
             yield put({ type: 'getAllUsers' })
         },
         *deleteUser({ payload: { id } }, { put, call }) {
@@ -63,9 +67,7 @@ export default {
             yield put({ type: 'getAllUsers' })
         },
         *addUser({ payload }, { put, call }) {
-            console.log(222)
             yield call(addUser, payload)
-            console.log(333)
             yield put({ type: 'getAllUsers' })
         },
 

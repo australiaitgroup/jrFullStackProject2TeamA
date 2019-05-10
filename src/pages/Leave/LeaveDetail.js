@@ -32,6 +32,7 @@ class leaveDetails extends Component {
             title: 'End Time',
             dataIndex: 'endTime',
             key: 'endTIme',
+            render: text => <a >{text}</a>,
         },
         {
             title: 'Description',

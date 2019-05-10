@@ -26,7 +26,6 @@ export function approveLeave(payload) {
     //    id:****,
     //    action:*****
     //}
-    console.log(payload);
     return request(`${baseUrl}/leaves/approve`, {
         method: 'PATCH',
         body: payload

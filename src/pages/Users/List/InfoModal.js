@@ -36,7 +36,7 @@ class InfoModal extends Component {
         })
     }
     okHandler = () => {
-        const { title,record, form: { validateFields }, dispatch } = this.props;
+        const { title, record, form: { validateFields }, dispatch } = this.props;
         validateFields((err, values) => {
             //values = {
             //    name:""
@@ -54,9 +54,10 @@ class InfoModal extends Component {
                     dispatch({
                         type: 'users/updateUser',
                         payload: {
-                            fields:values,
-                            id:record._id
-                        }});
+                            fields: values,
+                            id: record._id
+                        }
+                    });
                 }
             }
         });
