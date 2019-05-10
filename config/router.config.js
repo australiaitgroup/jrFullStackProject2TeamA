@@ -34,7 +34,20 @@ export default [
 				path: '/leave-management',
 				name: 'Leave Management',
 				icon: 'solution',
-				component: './Leave/LeaveList',
+				routes: [
+					{
+						path: '/leave-management',
+						redirect: '/leave-management/leaverequest',
+					},
+					{
+						path: '/leave-management/leaverequest',
+						component: './Leave/LeaveRequest',
+					},
+					 {
+						path: '/leave-management/leaveapproved',
+						component: './Leave/LeaveApproved',
+					}
+				]
 			},
 			{
 				path: '/leave-detail',

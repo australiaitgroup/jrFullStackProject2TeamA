@@ -44,7 +44,6 @@ class LoginPage extends Component {
   );
 
   render() {
-    console.log(this.props)
     const { login, submitting } = this.props;
     const { type, autoLogin } = this.state;
     return (
@@ -59,7 +58,7 @@ class LoginPage extends Component {
         >
             <UserName
               name="userName"
-              placeholder={`${formatMessage({ id: 'app.login.userName' })}: admin or user`}
+              placeholder={`${formatMessage({ id: 'app.login.userName' })}: admin@admin.com`}
               rules={[
                 {
                   required: true,
@@ -69,7 +68,7 @@ class LoginPage extends Component {
             />
             <Password
               name="password"
-              placeholder={`${formatMessage({ id: 'app.login.password' })}: ant.design`}
+              placeholder={`${formatMessage({ id: 'app.login.password' })}: admin`}
               rules={[
                 {
                   required: true,

@@ -36,14 +36,13 @@ class InfoModal extends Component {
         })
     }
     okHandler = () => {
-        const { title,record, form: { validateFields }, dispatch } = this.props;
+        const { title, record, form: { validateFields }, dispatch } = this.props;
         validateFields((err, values) => {
             //values = {
             //    name:""
             //    email:""
             //}
             if (!err) {
-
                 if (title === "Add User") {
                     dispatch({
                         type: 'users/addUser',
@@ -54,9 +53,10 @@ class InfoModal extends Component {
                     dispatch({
                         type: 'users/updateUser',
                         payload: {
-                            fields:values,
-                            id:record._id
-                        }});
+                            fields: values,
+                            id: record._id
+                        }
+                    });
                 }
             }
         });
@@ -114,7 +114,7 @@ class InfoModal extends Component {
                             })(<Input />)}
                         </FormItem>
                         <FormItem label="Address">
-                            {getFieldDecorator('Address', {
+                            {getFieldDecorator('address', {
                                 rules: [
                                     {
                                         required: false,
